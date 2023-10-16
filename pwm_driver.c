@@ -142,27 +142,27 @@ uint8 PWM_setDutyCycle(const uint8 Channel_Id, const uint8 DutyCycle)
     {
         return FAIL;
     }
-    
+    const uint8 temp = (255 * DutyCycle) / 100;
     // Set the PWM Channel Id
     switch (Channel_Id)
     {
     case ID0: // Timer 0
         // Set the OCR0 Register Value
-        OCR0 = DutyCycle;
+        OCR0 = temp;
         break;
 
     case ID1A: // Timer 1 Channel A
         // Set the OCR1A Register Value
-        OCR1A = DutyCycle;
+        OCR1A = temp;
         break;
     case ID1B: // Timer 1 Channel B
         // Set the OCR1B Register Value
-        OCR1B = DutyCycle;
+        OCR1B = temp;
         break;
 
     case ID2: // Timer 2
         // Set the OCR2 Register Value
-        OCR2 = DutyCycle;
+        OCR2 = temp;
         break;  
     
     default:
