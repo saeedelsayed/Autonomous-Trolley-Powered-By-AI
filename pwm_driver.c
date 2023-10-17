@@ -12,6 +12,7 @@
 /************************************ Includes *********************************************/
 /*******************************************************************************************/
 
+#include "pwm_registers.h"
 #include "pwm_driver.h"
 
 /*******************************************************************************************/
@@ -30,90 +31,120 @@
  */
 uint8 PWM_init(const uint8 Channel_Id)
 {
-    if (Channel_Id > 4 || Channel_Id < 1)
+    if (Channel_Id > PWM_CHANNEL_ID3)
     {
         return FAIL;
     }
-    // Set the TCNT0 Register Initial Value to 0
-    TCNT0 = 0x00;
-    // Set the OCR0 Register Initial Value to 255
-    OCR0 = 0xff;
+    // Set the PWM Channel Pins as Output Pins
+    GPIO_pinConfiguration(PORTB_ID, PIN3_ID, OUTPUT_PIN, LOGIC_LOW, PULL_UP_DEACTIVATION);
+    GPIO_pinConfiguration(PORTD_ID, PIN4_ID, OUTPUT_PIN, LOGIC_LOW, PULL_UP_DEACTIVATION);
+    GPIO_pinConfiguration(PORTD_ID, PIN5_ID, OUTPUT_PIN, LOGIC_LOW, PULL_UP_DEACTIVATION);
+    GPIO_pinConfiguration(PORTD_ID, PIN7_ID, OUTPUT_PIN, LOGIC_LOW, PULL_UP_DEACTIVATION);
+
     // Set the PWM Channel Id
     switch (Channel_Id)
     {
-    case ID0: // Timer 0
+    case PWM_CHANNEL_ID0: // Timer 0
+        // Set the TCNT0 Register Initial Value to 0
+        TCNT0 = 0x00;
+        // Set the OCR0 Register Initial Value to 255
+        OCR0 = PWM_CHANNEL_ID0_TOP;
 
         // Clear the Timer Mode Bits
-        TCCR0 &= ~(72 << WGM00);                                       
+        TCCR0 &= ~(0x01 << WGM00);
+        TCCR0 &= ~(0x01 << WGM01);                                   
         // Set the Timer Mode to Fast PWM
-        TCCR0 |= (72 << WGM00);                                        
+        TCCR0 |= (0x01 << WGM00);
+        TCCR0 |= (0x01 << WGM01);
 
         // Clear the Compare Output Mode Bits
-        TCCR0 &= ~(48 << COM01);                                      
+        TCCR0 &= ~(0x03 << COM00);                                      
         // Set the Compare Output Mode to Non-Inverting Mode
-        TCCR0 |= (1 << COM01);
+        TCCR0 |= (0x01 << COM01);
 
         // Clear the Pre-scaler Bits
-        TCCR0 &= ~(7 << CS02);                                       
+        TCCR0 &= ~(0x07 << CS00);                                       
         // Set the Pre-scaler to 1 (No Pre-scaling)
-        TCCR0 |= (1 << CS00);                                       
+        TCCR0 |= (0x01 << CS00);                                       
 
         break;
 
-    case ID1A: // Timer 1 Channel A
+    case PWM_CHANNEL_ID1: // Timer 1 Channel A
+        // Set the TCNT1 Register Initial Value to 0
+        TCNT1 = 0x00;
+        // Set the OCR1A Register Initial Value to 255
+        OCR1A = PWM_CHANNEL_ID1_TOP;
 
         // Clear the Timer Mode Bits                                 
-        TCCR1A &= ~(3 << WGM11);                                     
+        TCCR1A &= ~(0x03 << WGM10);
+        TCCR1B &= ~(0x03 << WGM12);                                     
         // Set the Timer Mode to Fast PWM                                 
-        TCCR1A |= (3 << WGM11);                                     
+        TCCR1A |= (0x01 << WGM11);
+        TCCR1B |= (0x03 << WGM12);
+        // Set the ICR1 Register Value to TOP Value (0xff)
+        ICR1 = PWM_CHANNEL_ID1_TOP;
 
         // Clear the Compare Output Mode Bits
-        TCCR1A &= ~(192 << COM1A1);                                    
+        TCCR1A &= ~(0x03 << COM1A0);                                    
         // Set the Compare Output Mode to Non-Inverting Mode
-        TCCR1A |= (1 << COM1A1);                                     
+        TCCR1A |= (0x01 << COM1A1);                                     
 
         // Clear the Pre-scaler Bits
-        TCCR1B &= ~(7 << CS12);                                     
+        TCCR1B &= ~(0x07 << CS10);                                     
         // Set the Pre-scaler to 1 (No Pre-scaling)
-        TCCR1B |= (1<<CS10);                                      
+        TCCR1B |= (0x01 << CS10);                                      
 
         break;
 
-    case ID1B: // Timer 1 Channel B
+    case PWM_CHANNEL_ID2: // Timer 1 Channel B
+        // Set the TCNT1 Register Initial Value to 0
+        TCNT1 = 0x00;
+        // Set the OCR1B Register Initial Value to 255
+        OCR1B = PWM_CHANNEL_ID2_TOP;
 
         // Clear the Timer Mode Bits
-        TCCR1B &= ~(24 << WGM13);                                     
+        TCCR1A &= ~(0x03 << WGM10);
+        TCCR1B &= ~(0x03 << WGM12);
         // Set the Timer Mode to Fast PWM
-        TCCR1B |= (24 << WGM13);                                   
+        TCCR1A |= (0x01 << WGM11);
+        TCCR1B |= (0x03 << WGM12);
+        // Set the ICR1 Register Value to TOP Value (0xff)
+        ICR1 = PWM_CHANNEL_ID2_TOP;
 
         // Clear the Compare Output Mode Bits
-        TCCR1A &= ~(48 << COM1B1);                                    
+        TCCR1A &= ~(0x03 << COM1B0);                                    
         // Set the Compare Output Mode to Non-Inverting Mode
-        TCCR1A |= (1<<COM1B1);
+        TCCR1A |= (0x01 << COM1B1);
 
         // Clear the Pre-scaler Bits
-        TCCR1B &= ~(7 << CS12);
+        TCCR1B &= ~(0x07 << CS10);
         // Set the Pre-scaler to 1 (No Pre-scaling)
-        TCCR1B |= (1<<CS10);                                       
+        TCCR1B |= (0x01 << CS10);                                       
 
         break;
 
-    case ID2: // Timer 2
+    case PWM_CHANNEL_ID3: // Timer 2
+        // Set the TCNT2 Register Initial Value to 0
+        TCNT2 = 0x00;
+        // Set the OCR2 Register Initial Value to 255
+        OCR2 = PWM_CHANNEL_ID3_TOP;
 
         // Clear the Timer Mode Bits
-        TCCR2 &= ~(27 << WGM20);                                    
+        TCCR2 &= ~(0x01 << WGM20);
+        TCCR2 &= ~(0x01 << WGM21);
         // Set the Timer Mode to Fast PWM
-        TCCR2 |= (72 << WGM20);                                     
+        TCCR2 |= (0x01 << WGM20);
+        TCCR2 |= (0x01 << WGM21);
 
         // Clear the Compare Output Mode Bits
-        TCCR2 &= ~(48 << COM21);                                    
+        TCCR2 &= ~(0x03 << COM20);
         // Set the Compare Output Mode to Non-Inverting Mode
-        TCCR2 |= (1 << COM21);                                     
+        TCCR2 |= (0x01 << COM21);
 
         // Clear the Pre-scaler Bits
-        TCCR2 &= ~(7 << CS22);                                    
+        TCCR2 &= ~(0x07 << CS20);
         // Set the Pre-scaler to 1 (No Pre-scaling)
-        TCCR2 |= (1 << CS20);                                     
+        TCCR2 |= (0x01 << CS20);
 
         break;      
     
@@ -138,31 +169,54 @@ uint8 PWM_init(const uint8 Channel_Id)
  */
 uint8 PWM_setDutyCycle(const uint8 Channel_Id, const uint8 DutyCycle)
 {
-    if (DutyCycle > 100 || DutyCycle < 0)
+    if (DutyCycle > PWM_DUTY_CYCLE_MAX || Channel_Id > PWM_CHANNEL_ID3)
     {
         return FAIL;
+    } 
+    // Set the Top Value of the PWM Channel
+    uint8 top = 0x00;
+    switch (Channel_Id)
+    {
+    case PWM_CHANNEL_ID0:
+        top = PWM_CHANNEL_ID0_TOP;
+        break;
+
+    case PWM_CHANNEL_ID1:
+        top = PWM_CHANNEL_ID1_TOP;
+        break;
+
+    case PWM_CHANNEL_ID2:
+        top = PWM_CHANNEL_ID2_TOP;
+        break;
+
+    case PWM_CHANNEL_ID3:   
+        top = PWM_CHANNEL_ID3_TOP;
+        break;
+
+    default:
+        break;
     }
-    const uint8 temp = (255 * DutyCycle) / 100;
+
     // Set the PWM Channel Id
     switch (Channel_Id)
     {
-    case ID0: // Timer 0
+    case PWM_CHANNEL_ID0: // Timer 0
         // Set the OCR0 Register Value
-        OCR0 = temp;
+        OCR0 = (top * DutyCycle) / PWM_DUTY_CYCLE_MAX;
         break;
 
-    case ID1A: // Timer 1 Channel A
+    case PWM_CHANNEL_ID1: // Timer 1 Channel A
         // Set the OCR1A Register Value
-        OCR1A = temp;
+        OCR1A = (top * DutyCycle) / PWM_DUTY_CYCLE_MAX;
         break;
-    case ID1B: // Timer 1 Channel B
+    case PWM_CHANNEL_ID2: // Timer 1 Channel B
         // Set the OCR1B Register Value
-        OCR1B = temp;
+        OCR1B = (top * DutyCycle) / PWM_DUTY_CYCLE_MAX;
         break;
 
-    case ID2: // Timer 2
+    case PWM_CHANNEL_ID3: // Timer 2
         // Set the OCR2 Register Value
-        OCR2 = temp;
+        OCR2 = (top * DutyCycle) / PWM_DUTY_CYCLE_MAX;
         break;  
     
     default:
