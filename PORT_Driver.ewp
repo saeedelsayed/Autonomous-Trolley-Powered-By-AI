@@ -1877,6 +1877,9 @@
     </settings>
   </configuration>
   <file>
+    <name>$PROJ_DIR$\common_macros.h</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\main.c</name>
   </file>
   <file>
@@ -1890,6 +1893,15 @@
   </file>
   <file>
     <name>$PROJ_DIR$\std_types.h</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\uart_driver.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\uart_driver.h</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\uart_registers.h</name>
   </file>
 </project>
 
