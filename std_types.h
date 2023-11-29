@@ -4,7 +4,11 @@
  *
  * File Name: std_types.h
  *
+<<<<<<< HEAD
  * Description: types for AVR
+=======
+ * Description: types for ARM
+>>>>>>> UART_Driver_Complete
  *
  * Author: Abdelrahman Saeed
  *
@@ -47,5 +51,8 @@ typedef unsigned char boolean;
 
 /* Definition of the return type for the functions in the drivers */
 typedef uint8 standard_return_t;
+
+#define ON                     1U
+#define OFF                    0U
 
 #endif /* STD_TYPES_H_ */

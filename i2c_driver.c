@@ -13,7 +13,11 @@
 /*******************************************************************************************/
 #include "i2c_driver.h"
 #include "i2c_registers.h"
-#include "port.h"
+//#include "port.h"
+
+
+#define RCC_APB1ENR   (*(unsigned long*) (0x40023800+0x40))
+
 /*******************************************************************************************/
 /*********************************** Function Definitions **********************************/
 /*******************************************************************************************/
@@ -28,8 +32,8 @@ standard_return_t I2C_init(const I2C_config_t *i2c){
         ret_val = E_NOT_OK;
     }
     else {
-        /* enable the clock for the I2C */
-        // RCC_APB1ENR |= (1 << 21);  /* I2C1 */
+        /* enable the clock for the I2C (warning...it is static)*/
+         RCC_APB1ENR |= (1 << 21);  /* I2C1 */
         // RCC_APB1ENR |= (1 << 22);  /* I2C2 */
         // RCC_APB1ENR |= (1 << 23);  /* I2C3 */
         
@@ -38,17 +42,24 @@ standard_return_t I2C_init(const I2C_config_t *i2c){
         /* disable I2C */
         (*(uint32 *)(i2c->type + I2Cx_CR1_OFFSET)) |= (I2C_DISABLE << I2C_CR1_PE);
         /* choose the mode of the I2C */
-        (*(uint32 *)(i2c->type + I2Cx_CR1_OFFSET)) |= (I2C_MODE_I2C << I2C_CR1_SMBUS);
+        (*(uint32 *)(i2c->type + I2Cx_CR1_OFFSET)) |= (i2c->mode << I2C_MODE_SMBUS);
 
         /* clear all bits of the CR2 register */
         (*(uint32 *)(i2c->type + I2Cx_CR2_OFFSET)) = CLEAR_ALL_BITS;
-        /* choose the clock of the I2C */
+        /* choose the clock of the I2C (warning...it is static)*/
         (*(uint32 *)(i2c->type + I2Cx_CR2_OFFSET)) |= (I2C_CLOCK_16MHZ << I2C_CR2_FREQ);
 
         /* clear all bits of the CCR register */
         (*(uint32 *)(i2c->type + I2Cx_CCR_OFFSET)) = CLEAR_ALL_BITS;
         /* choose the speed of the I2C */
         (*(uint32 *)(i2c->type + I2Cx_CCR_OFFSET)) |= (I2C_SPEED_STANDARD << I2C_CCR_FS);
+        /* Controls the SCL clock in master mode(100 KHZ) (warning...it is static)*/ 
+        (*(uint32 *)(i2c->type + I2Cx_CCR_OFFSET)) |= (80 << I2C_CCR_CCR);
+        
+        /* clear all bits of the TRISE register */
+        (*(uint32 *)(i2c->type + I2Cx_TRISE_OFFSET)) = CLEAR_ALL_BITS;
+        /* control the TRISE register (warning...it is static) */
+        (*(uint32 *)(i2c->type + I2Cx_TRISE_OFFSET)) |= (17 << I2C_TRISE_TRISE);
         
         /* enable I2C */
         (*(uint32 *)(i2c->type + I2Cx_CR1_OFFSET)) |= (I2C_ENABLE << I2C_CR1_PE);

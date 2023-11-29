@@ -116,7 +116,7 @@ typedef struct
 {
     uint32 type; /* holds the start address of the I2C */
     // uint8 state; /* holds the initial state of the I2C */
-    // uint8 mode; /* holds the mode of the I2C */
+     uint8 mode; /* holds the mode of the I2C */
     
 
 }I2C_config_t;
