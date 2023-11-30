@@ -1,25 +1,17 @@
 #include "port.h"
 #include "uart_driver.h"
 #include "uart_registers.h"
-
-
+#include "gps.h"
 
 int main()
 {
-  /* enable clock for portA */
+  /* enable clock for port A */
   *((uint32*)0x40023800) |= (1 << 0);
   *((uint32*)0x40023830) |= (1 << 0);
   
-  
-  for(uint8 i = PIN0_ID; i <= PIN15_ID; i++)
-  {
-      ConfigurationPin pin = {PORTA_ID, i, INPUT_MODE, OUTPUT_PUSH_PULL, PULL_UP, LOGIC_LOW, NO_ALTERNATE};
- 
-      PORT_configurePin(&pin);
-  }
   /* testing if the port & uart drivers work together or not */
-  ConfigurationPin pin9PortA = {PORTA_ID, PIN9_ID, ALTERNATE_MODE, OUTPUT_PUSH_PULL, PULL_UP, LOGIC_LOW, AF7};
-  ConfigurationPin pin10PortA = {PORTA_ID, PIN10_ID, ALTERNATE_MODE, OUTPUT_PUSH_PULL, PULL_UP, LOGIC_LOW, AF7};
+  ConfigurationPin pin9PortA = {PORTA_ID, PIN9_ID, ALTERNATE_MODE, OUTPUT_PUSH_PULL, NO_PULL_UP_DOWN, LOGIC_HIGH, AF7};
+  ConfigurationPin pin10PortA = {PORTA_ID, PIN10_ID, ALTERNATE_MODE, OUTPUT_PUSH_PULL, NO_PULL_UP_DOWN, LOGIC_HIGH, AF7};
   
   PORT_configurePin(&pin9PortA);
   PORT_configurePin(&pin10PortA);
@@ -27,13 +19,16 @@ int main()
   USART_STRUCT usart1 = {USART1, UART_ENABLE, UART_8_BIT_WORD, UART_1_STOP_BIT, 9600};
   UART_init(&usart1);
   
-  uint8* Str = "final\r\n";
-  UART_sendString(&usart1, Str);
-  uint8 data;  
+  GPS_setInputOutputModule(&usart1);
+  
+  GPS_init();
+  
+  GPS_updateLatitudeAndLongitude();
+  
   while(1){
-   
-    data = UART_receiveByte(&usart1);
-    UART_sendByte(&usart1,data);
+
   }
- 
+  
+  return 0;
+  
 }

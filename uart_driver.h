@@ -105,7 +105,7 @@ void UART_sendString(USART_STRUCT * usart, uint8* str);
  *
  * return value : NONE.
  */
-void UART_receiveString(USART_STRUCT * usart, char * Str);
+void UART_receiveString(USART_STRUCT * usart, uint8 * Str);
 
 
 

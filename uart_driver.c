@@ -128,16 +128,15 @@ void UART_sendString(USART_STRUCT * usart, uint8* Str)
  *
  * return value : NONE.
  */
-void UART_receiveString(USART_STRUCT * usart, char * Str)
+void UART_receiveString(USART_STRUCT * usart, uint8 * Str)
 {
 	uint8 i = 0;
 	Str[i] = UART_receiveByte(usart);
+        
       /* check if we reached the end of the data ('\r' in case of bluetoohe module) */
 	while(Str[i] != '\r')
 	{
 		i++;
 		Str[i] = UART_receiveByte(usart);
-
-
 	}
 }

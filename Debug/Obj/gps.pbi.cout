@@ -1,4 +1,4 @@
-"C:\Users\Options\Autonomous-Trolly-Powered-By-AI\uart_driver.c"
+"C:\Users\Options\Autonomous-Trolly-Powered-By-AI\gps.c"
 -std=c99
 -ferror-limit=100
 -I
