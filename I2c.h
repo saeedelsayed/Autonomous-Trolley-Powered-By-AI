@@ -102,17 +102,19 @@ typedef enum
 void I2c_Slave_Init(uint8 address);
 void I2c_Master_Init(uint8 address);
 void I2c_Master_SendStop(void);
-I2c_StatusType I2c_Master_SendStart(void);
-I2c_StatusType I2c_Master_SendSlaveAddress(uint8 address, I2c_RequestType request);
-I2c_StatusType I2c_WriteData(uint8 data);
-I2c_StatusType I2c_ReadData(uint8 *data);
-I2c_StatusType I2c_GetStatus(void);
-uint8 I2c_GetFlag(void);
 void I2c_ClearFlag(void);
 void I2c_EnableAck(void);
 void I2c_DisableAck(void);
 void I2c_EnableGeneralCall(void);
 void I2c_DisableGeneralCall(void);
+uint8 I2c_GetFlag(void);
+I2c_StatusType I2c_Master_SendStart(void);
+I2c_StatusType I2c_Master_SendSlaveAddress(uint8 address, I2c_RequestType request);
+I2c_StatusType I2c_WriteData(uint8 data);
+I2c_StatusType I2c_ReadData(uint8 *data);
+I2c_StatusType I2c_GetStatus(void);
 I2c_ErrorStateType I2c_Master_Transmit (uint8 slave_address, uint8 dataBuffer[], uint8 length);
 I2c_ErrorStateType I2c_Slave_Receive (uint8 dataBuffer[], uint8 length);
+I2c_ErrorStateType I2c_Master_Receive(u8 slave_address, u8 dataBuffer[], u8 length);
+
 #endif /* INC_I2C_H_ */
