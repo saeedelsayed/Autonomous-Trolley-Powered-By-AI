@@ -1,0 +1,1099 @@
+
+AVR_System.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000544  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000c  00800060  00000544  000005b8  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000005c4  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000005f4  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 000000a8  00000000  00000000  00000630  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000cf8  00000000  00000000  000006d8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000007cc  00000000  00000000  000013d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000066a  00000000  00000000  00001b9c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000124  00000000  00000000  00002208  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000004a8  00000000  00000000  0000232c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000006ee  00000000  00000000  000027d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000068  00000000  00000000  00002ec2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e4 e4       	ldi	r30, 0x44	; 68
+  68:	f5 e0       	ldi	r31, 0x05	; 5
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	ac 36       	cpi	r26, 0x6C	; 108
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 42 01 	call	0x284	; 0x284 <main>
+  7a:	0c 94 a0 02 	jmp	0x540	; 0x540 <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <DCmotor_init>:
+ *
+ * parameters  : pointer of type dc_motor which holds the DC motor information.
+ *
+ * return value : the function returns success or failure of the initialization.
+ */
+uint8 DCmotor_init(dc_motor* dcMotor){
+  82:	0f 93       	push	r16
+  84:	cf 93       	push	r28
+  86:	df 93       	push	r29
+  88:	ec 01       	movw	r28, r24
+		returnValue = FAIL;
+	}
+	#endif
+	
+	/* configure the positive terminal of the DC motor */
+	returnValue = returnValue && GPIO_pinConfiguration(dcMotor->positiveTerminal.portId, dcMotor->positiveTerminal.pinId, OUTPUT_PIN,
+  8a:	00 e0       	ldi	r16, 0x00	; 0
+  8c:	20 e0       	ldi	r18, 0x00	; 0
+  8e:	41 e0       	ldi	r20, 0x01	; 1
+  90:	69 81       	ldd	r22, Y+1	; 0x01
+  92:	88 81       	ld	r24, Y
+  94:	0e 94 c6 00 	call	0x18c	; 0x18c <GPIO_pinConfiguration>
+  98:	88 23       	and	r24, r24
+  9a:	11 f0       	breq	.+4      	; 0xa0 <DCmotor_init+0x1e>
+  9c:	81 e0       	ldi	r24, 0x01	; 1
+  9e:	01 c0       	rjmp	.+2      	; 0xa2 <DCmotor_init+0x20>
+  a0:	80 e0       	ldi	r24, 0x00	; 0
+	LOGIC_LOW,PULL_UP_DEACTIVATION);
+	
+	/* configure the negative terminal of the DC motor */
+	returnValue = returnValue && GPIO_pinConfiguration(dcMotor->negativeTerminal.portId, dcMotor->negativeTerminal.pinId, OUTPUT_PIN,
+  a2:	88 23       	and	r24, r24
+  a4:	59 f0       	breq	.+22     	; 0xbc <DCmotor_init+0x3a>
+  a6:	00 e0       	ldi	r16, 0x00	; 0
+  a8:	20 e0       	ldi	r18, 0x00	; 0
+  aa:	41 e0       	ldi	r20, 0x01	; 1
+  ac:	6b 81       	ldd	r22, Y+3	; 0x03
+  ae:	8a 81       	ldd	r24, Y+2	; 0x02
+  b0:	0e 94 c6 00 	call	0x18c	; 0x18c <GPIO_pinConfiguration>
+  b4:	88 23       	and	r24, r24
+  b6:	21 f0       	breq	.+8      	; 0xc0 <DCmotor_init+0x3e>
+  b8:	81 e0       	ldi	r24, 0x01	; 1
+  ba:	03 c0       	rjmp	.+6      	; 0xc2 <DCmotor_init+0x40>
+  bc:	80 e0       	ldi	r24, 0x00	; 0
+  be:	01 c0       	rjmp	.+2      	; 0xc2 <DCmotor_init+0x40>
+  c0:	80 e0       	ldi	r24, 0x00	; 0
+	LOGIC_LOW,PULL_UP_DEACTIVATION);
+	
+	/* initialize the PWM channel connected to the DC motor */
+	returnValue = returnValue && PWM_init(dcMotor->pwmChannelId);
+  c2:	88 23       	and	r24, r24
+  c4:	39 f0       	breq	.+14     	; 0xd4 <DCmotor_init+0x52>
+  c6:	8d 81       	ldd	r24, Y+5	; 0x05
+  c8:	0e 94 73 01 	call	0x2e6	; 0x2e6 <PWM_init>
+  cc:	88 23       	and	r24, r24
+  ce:	21 f0       	breq	.+8      	; 0xd8 <DCmotor_init+0x56>
+  d0:	81 e0       	ldi	r24, 0x01	; 1
+  d2:	03 c0       	rjmp	.+6      	; 0xda <DCmotor_init+0x58>
+  d4:	80 e0       	ldi	r24, 0x00	; 0
+  d6:	01 c0       	rjmp	.+2      	; 0xda <DCmotor_init+0x58>
+  d8:	80 e0       	ldi	r24, 0x00	; 0
+	
+	/* return success or failure of the initialization */
+	return returnValue;
+}
+  da:	df 91       	pop	r29
+  dc:	cf 91       	pop	r28
+  de:	0f 91       	pop	r16
+  e0:	08 95       	ret
+
+000000e2 <DCmotor_setSpeed>:
+		returnValue = FAIL;
+	}
+	#endif
+	
+	/* set the speed by setting the PWM channel duty cycle */
+	returnValue = returnValue && PWM_setDutyCycle(dcMotor->pwmChannelId, speed);
+  e2:	fc 01       	movw	r30, r24
+  e4:	85 81       	ldd	r24, Z+5	; 0x05
+  e6:	0e 94 2b 02 	call	0x456	; 0x456 <PWM_setDutyCycle>
+  ea:	88 23       	and	r24, r24
+  ec:	11 f0       	breq	.+4      	; 0xf2 <DCmotor_setSpeed+0x10>
+  ee:	81 e0       	ldi	r24, 0x01	; 1
+  f0:	08 95       	ret
+  f2:	80 e0       	ldi	r24, 0x00	; 0
+	
+	/* return success or failure of the operation */
+	return returnValue;
+}
+  f4:	08 95       	ret
+
+000000f6 <DCmotor_setSpeedAndDirection>:
+ *               speed which holds the required speed to set, direction which hold the required
+ *               direction
+ *
+ * return value : the function returns success or failure of the operation.
+ */
+uint8 DCmotor_setSpeedAndDirection(dc_motor* dcMotor, uint8 speed, uint8 direction){
+  f6:	1f 93       	push	r17
+  f8:	cf 93       	push	r28
+  fa:	df 93       	push	r29
+  fc:	ec 01       	movw	r28, r24
+  fe:	14 2f       	mov	r17, r20
+		returnValue = FAIL;
+	}
+	#endif
+	
+	/* set the speed by setting the PWM channel duty cycle */
+	returnValue = returnValue && DCmotor_setSpeed(dcMotor, speed);
+ 100:	0e 94 71 00 	call	0xe2	; 0xe2 <DCmotor_setSpeed>
+ 104:	88 23       	and	r24, r24
+ 106:	11 f0       	breq	.+4      	; 0x10c <DCmotor_setSpeedAndDirection+0x16>
+ 108:	81 e0       	ldi	r24, 0x01	; 1
+ 10a:	01 c0       	rjmp	.+2      	; 0x10e <DCmotor_setSpeedAndDirection+0x18>
+ 10c:	80 e0       	ldi	r24, 0x00	; 0
+	
+	/* setting the direction of the DC motor as clock wise or anti clock wise */
+	if(direction == CLOCK_WISE){
+ 10e:	11 11       	cpse	r17, r1
+ 110:	1d c0       	rjmp	.+58     	; 0x14c <DCmotor_setSpeedAndDirection+0x56>
+		returnValue = returnValue && GPIO_writePin(dcMotor->positiveTerminal.portId, dcMotor->positiveTerminal.pinId,LOGIC_HIGH);
+ 112:	88 23       	and	r24, r24
+ 114:	49 f0       	breq	.+18     	; 0x128 <DCmotor_setSpeedAndDirection+0x32>
+ 116:	41 e0       	ldi	r20, 0x01	; 1
+ 118:	69 81       	ldd	r22, Y+1	; 0x01
+ 11a:	88 81       	ld	r24, Y
+ 11c:	0e 94 18 01 	call	0x230	; 0x230 <GPIO_writePin>
+ 120:	88 23       	and	r24, r24
+ 122:	21 f0       	breq	.+8      	; 0x12c <DCmotor_setSpeedAndDirection+0x36>
+ 124:	81 e0       	ldi	r24, 0x01	; 1
+ 126:	03 c0       	rjmp	.+6      	; 0x12e <DCmotor_setSpeedAndDirection+0x38>
+ 128:	80 e0       	ldi	r24, 0x00	; 0
+ 12a:	01 c0       	rjmp	.+2      	; 0x12e <DCmotor_setSpeedAndDirection+0x38>
+ 12c:	80 e0       	ldi	r24, 0x00	; 0
+		returnValue = returnValue && GPIO_writePin(dcMotor->negativeTerminal.portId, dcMotor->negativeTerminal.pinId,LOGIC_LOW);
+ 12e:	88 23       	and	r24, r24
+ 130:	49 f0       	breq	.+18     	; 0x144 <DCmotor_setSpeedAndDirection+0x4e>
+ 132:	40 e0       	ldi	r20, 0x00	; 0
+ 134:	6b 81       	ldd	r22, Y+3	; 0x03
+ 136:	8a 81       	ldd	r24, Y+2	; 0x02
+ 138:	0e 94 18 01 	call	0x230	; 0x230 <GPIO_writePin>
+ 13c:	88 23       	and	r24, r24
+ 13e:	21 f0       	breq	.+8      	; 0x148 <DCmotor_setSpeedAndDirection+0x52>
+ 140:	81 e0       	ldi	r24, 0x01	; 1
+ 142:	20 c0       	rjmp	.+64     	; 0x184 <DCmotor_setSpeedAndDirection+0x8e>
+ 144:	80 e0       	ldi	r24, 0x00	; 0
+ 146:	1e c0       	rjmp	.+60     	; 0x184 <DCmotor_setSpeedAndDirection+0x8e>
+ 148:	80 e0       	ldi	r24, 0x00	; 0
+ 14a:	1c c0       	rjmp	.+56     	; 0x184 <DCmotor_setSpeedAndDirection+0x8e>
+		}else{
+		returnValue = returnValue && GPIO_writePin(dcMotor->positiveTerminal.portId, dcMotor->positiveTerminal.pinId,LOGIC_LOW);
+ 14c:	88 23       	and	r24, r24
+ 14e:	49 f0       	breq	.+18     	; 0x162 <DCmotor_setSpeedAndDirection+0x6c>
+ 150:	40 e0       	ldi	r20, 0x00	; 0
+ 152:	69 81       	ldd	r22, Y+1	; 0x01
+ 154:	88 81       	ld	r24, Y
+ 156:	0e 94 18 01 	call	0x230	; 0x230 <GPIO_writePin>
+ 15a:	88 23       	and	r24, r24
+ 15c:	21 f0       	breq	.+8      	; 0x166 <DCmotor_setSpeedAndDirection+0x70>
+ 15e:	81 e0       	ldi	r24, 0x01	; 1
+ 160:	03 c0       	rjmp	.+6      	; 0x168 <DCmotor_setSpeedAndDirection+0x72>
+ 162:	80 e0       	ldi	r24, 0x00	; 0
+ 164:	01 c0       	rjmp	.+2      	; 0x168 <DCmotor_setSpeedAndDirection+0x72>
+ 166:	80 e0       	ldi	r24, 0x00	; 0
+		returnValue = returnValue && GPIO_writePin(dcMotor->negativeTerminal.portId, dcMotor->negativeTerminal.pinId,LOGIC_HIGH);
+ 168:	88 23       	and	r24, r24
+ 16a:	49 f0       	breq	.+18     	; 0x17e <DCmotor_setSpeedAndDirection+0x88>
+ 16c:	41 e0       	ldi	r20, 0x01	; 1
+ 16e:	6b 81       	ldd	r22, Y+3	; 0x03
+ 170:	8a 81       	ldd	r24, Y+2	; 0x02
+ 172:	0e 94 18 01 	call	0x230	; 0x230 <GPIO_writePin>
+ 176:	88 23       	and	r24, r24
+ 178:	21 f0       	breq	.+8      	; 0x182 <DCmotor_setSpeedAndDirection+0x8c>
+ 17a:	81 e0       	ldi	r24, 0x01	; 1
+ 17c:	03 c0       	rjmp	.+6      	; 0x184 <DCmotor_setSpeedAndDirection+0x8e>
+ 17e:	80 e0       	ldi	r24, 0x00	; 0
+ 180:	01 c0       	rjmp	.+2      	; 0x184 <DCmotor_setSpeedAndDirection+0x8e>
+ 182:	80 e0       	ldi	r24, 0x00	; 0
+	}
+	
+	/* return success or failure of the operation */
+	return returnValue;
+ 184:	df 91       	pop	r29
+ 186:	cf 91       	pop	r28
+ 188:	1f 91       	pop	r17
+ 18a:	08 95       	ret
+
+0000018c <GPIO_pinConfiguration>:
+*               represents activation of the pull up option.
+*
+* return value : the function returns success or failure of the configuration.
+*/
+uint8 GPIO_pinConfiguration(uint8 portId, uint8 pinId, uint8 pinMode,
+uint8 pinInitialState, uint8 pinPullUpActivation) {
+ 18c:	0f 93       	push	r16
+ 18e:	1f 93       	push	r17
+		return FAIL;
+	}
+	#endif
+
+	/* select the start address of the required port */
+	switch (portId) {
+ 190:	81 30       	cpi	r24, 0x01	; 1
+ 192:	41 f0       	breq	.+16     	; 0x1a4 <GPIO_pinConfiguration+0x18>
+ 194:	80 f0       	brcs	.+32     	; 0x1b6 <GPIO_pinConfiguration+0x2a>
+ 196:	82 30       	cpi	r24, 0x02	; 2
+ 198:	41 f0       	breq	.+16     	; 0x1aa <GPIO_pinConfiguration+0x1e>
+ 19a:	83 30       	cpi	r24, 0x03	; 3
+ 19c:	49 f0       	breq	.+18     	; 0x1b0 <GPIO_pinConfiguration+0x24>
+*/
+uint8 GPIO_pinConfiguration(uint8 portId, uint8 pinId, uint8 pinMode,
+uint8 pinInitialState, uint8 pinPullUpActivation) {
+
+	/* pointer to hold the start address of the port registers */
+	uint8 *startAddrees_ptr = NULL_PTR;
+ 19e:	a0 e0       	ldi	r26, 0x00	; 0
+ 1a0:	b0 e0       	ldi	r27, 0x00	; 0
+ 1a2:	0b c0       	rjmp	.+22     	; 0x1ba <GPIO_pinConfiguration+0x2e>
+		/* start address of PORT A */
+		startAddrees_ptr = PORTA_START_ADDRESS;
+		break;
+		case PORTB_ID:
+		/* start address of PORT B */
+		startAddrees_ptr = PORTB_START_ADDRESS;
+ 1a4:	a6 e3       	ldi	r26, 0x36	; 54
+ 1a6:	b0 e0       	ldi	r27, 0x00	; 0
+		break;
+ 1a8:	08 c0       	rjmp	.+16     	; 0x1ba <GPIO_pinConfiguration+0x2e>
+		case PORTC_ID:
+		/* start address of PORT C */
+		startAddrees_ptr = PORTC_START_ADDRESS;
+ 1aa:	a3 e3       	ldi	r26, 0x33	; 51
+ 1ac:	b0 e0       	ldi	r27, 0x00	; 0
+		break;
+ 1ae:	05 c0       	rjmp	.+10     	; 0x1ba <GPIO_pinConfiguration+0x2e>
+		case PORTD_ID:
+		/* start address of PORT D */
+		startAddrees_ptr = PORTD_START_ADDRESS;
+ 1b0:	a0 e3       	ldi	r26, 0x30	; 48
+ 1b2:	b0 e0       	ldi	r27, 0x00	; 0
+		break;
+ 1b4:	02 c0       	rjmp	.+4      	; 0x1ba <GPIO_pinConfiguration+0x2e>
+
+	/* select the start address of the required port */
+	switch (portId) {
+		case PORTA_ID:
+		/* start address of PORT A */
+		startAddrees_ptr = PORTA_START_ADDRESS;
+ 1b6:	a9 e3       	ldi	r26, 0x39	; 57
+ 1b8:	b0 e0       	ldi	r27, 0x00	; 0
+		break;
+	}
+
+	/* set the required mode of the pin through data direction register */
+	(*(startAddrees_ptr + DATA_DIRECTION_REGISTER_OFFSET)) =
+	((*(startAddrees_ptr + DATA_DIRECTION_REGISTER_OFFSET))
+ 1ba:	11 96       	adiw	r26, 0x01	; 1
+ 1bc:	3c 91       	ld	r19, X
+ 1be:	11 97       	sbiw	r26, 0x01	; 1
+	& (~(1 << pinId))) | (pinMode << pinId);
+ 1c0:	81 e0       	ldi	r24, 0x01	; 1
+ 1c2:	90 e0       	ldi	r25, 0x00	; 0
+ 1c4:	06 2e       	mov	r0, r22
+ 1c6:	02 c0       	rjmp	.+4      	; 0x1cc <GPIO_pinConfiguration+0x40>
+ 1c8:	88 0f       	add	r24, r24
+ 1ca:	99 1f       	adc	r25, r25
+ 1cc:	0a 94       	dec	r0
+ 1ce:	e2 f7       	brpl	.-8      	; 0x1c8 <GPIO_pinConfiguration+0x3c>
+		startAddrees_ptr = PORTD_START_ADDRESS;
+		break;
+	}
+
+	/* set the required mode of the pin through data direction register */
+	(*(startAddrees_ptr + DATA_DIRECTION_REGISTER_OFFSET)) =
+ 1d0:	80 95       	com	r24
+	((*(startAddrees_ptr + DATA_DIRECTION_REGISTER_OFFSET))
+	& (~(1 << pinId))) | (pinMode << pinId);
+ 1d2:	e4 2f       	mov	r30, r20
+ 1d4:	f0 e0       	ldi	r31, 0x00	; 0
+ 1d6:	06 2e       	mov	r0, r22
+ 1d8:	02 c0       	rjmp	.+4      	; 0x1de <GPIO_pinConfiguration+0x52>
+ 1da:	ee 0f       	add	r30, r30
+ 1dc:	ff 1f       	adc	r31, r31
+ 1de:	0a 94       	dec	r0
+ 1e0:	e2 f7       	brpl	.-8      	; 0x1da <GPIO_pinConfiguration+0x4e>
+		startAddrees_ptr = PORTD_START_ADDRESS;
+		break;
+	}
+
+	/* set the required mode of the pin through data direction register */
+	(*(startAddrees_ptr + DATA_DIRECTION_REGISTER_OFFSET)) =
+ 1e2:	93 2f       	mov	r25, r19
+ 1e4:	98 23       	and	r25, r24
+ 1e6:	e9 2b       	or	r30, r25
+ 1e8:	11 96       	adiw	r26, 0x01	; 1
+ 1ea:	ec 93       	st	X, r30
+ 1ec:	11 97       	sbiw	r26, 0x01	; 1
+	((*(startAddrees_ptr + DATA_DIRECTION_REGISTER_OFFSET))
+	& (~(1 << pinId))) | (pinMode << pinId);
+
+	if (pinMode == OUTPUT_PIN) {
+ 1ee:	41 30       	cpi	r20, 0x01	; 1
+ 1f0:	71 f4       	brne	.+28     	; 0x20e <GPIO_pinConfiguration+0x82>
+		/* if the pin is output, initialize the pin with the initial value
+		* through data output register
+		*/
+		(*(startAddrees_ptr + DATA_OUTPUT_REGISTER_OFFSET)) =
+		((*(startAddrees_ptr + DATA_OUTPUT_REGISTER_OFFSET))
+ 1f2:	12 96       	adiw	r26, 0x02	; 2
+ 1f4:	9c 91       	ld	r25, X
+ 1f6:	12 97       	sbiw	r26, 0x02	; 2
+		& (~(1 << pinId))) | (pinInitialState << pinId);
+ 1f8:	30 e0       	ldi	r19, 0x00	; 0
+ 1fa:	02 c0       	rjmp	.+4      	; 0x200 <GPIO_pinConfiguration+0x74>
+ 1fc:	22 0f       	add	r18, r18
+ 1fe:	33 1f       	adc	r19, r19
+ 200:	6a 95       	dec	r22
+ 202:	e2 f7       	brpl	.-8      	; 0x1fc <GPIO_pinConfiguration+0x70>
+
+	if (pinMode == OUTPUT_PIN) {
+		/* if the pin is output, initialize the pin with the initial value
+		* through data output register
+		*/
+		(*(startAddrees_ptr + DATA_OUTPUT_REGISTER_OFFSET)) =
+ 204:	89 23       	and	r24, r25
+ 206:	82 2b       	or	r24, r18
+ 208:	12 96       	adiw	r26, 0x02	; 2
+ 20a:	8c 93       	st	X, r24
+ 20c:	0d c0       	rjmp	.+26     	; 0x228 <GPIO_pinConfiguration+0x9c>
+		/*
+		* if the pin is input, enable or disable the pull up of the pin
+		* through the data output register
+		*/
+		(*(startAddrees_ptr + DATA_OUTPUT_REGISTER_OFFSET)) =
+		((*(startAddrees_ptr + DATA_OUTPUT_REGISTER_OFFSET))
+ 20e:	12 96       	adiw	r26, 0x02	; 2
+ 210:	9c 91       	ld	r25, X
+ 212:	12 97       	sbiw	r26, 0x02	; 2
+		& (~(1 << pinId))) | (pinPullUpActivation << pinId);
+ 214:	10 e0       	ldi	r17, 0x00	; 0
+ 216:	02 c0       	rjmp	.+4      	; 0x21c <GPIO_pinConfiguration+0x90>
+ 218:	00 0f       	add	r16, r16
+ 21a:	11 1f       	adc	r17, r17
+ 21c:	6a 95       	dec	r22
+ 21e:	e2 f7       	brpl	.-8      	; 0x218 <GPIO_pinConfiguration+0x8c>
+		} else {
+		/*
+		* if the pin is input, enable or disable the pull up of the pin
+		* through the data output register
+		*/
+		(*(startAddrees_ptr + DATA_OUTPUT_REGISTER_OFFSET)) =
+ 220:	89 23       	and	r24, r25
+ 222:	80 2b       	or	r24, r16
+ 224:	12 96       	adiw	r26, 0x02	; 2
+ 226:	8c 93       	st	X, r24
+		& (~(1 << pinId))) | (pinPullUpActivation << pinId);
+	}
+
+	/* return success of the configuration */
+	return SUCCESS;
+}
+ 228:	81 e0       	ldi	r24, 0x01	; 1
+ 22a:	1f 91       	pop	r17
+ 22c:	0f 91       	pop	r16
+ 22e:	08 95       	ret
+
+00000230 <GPIO_writePin>:
+		return FAIL;
+	}
+	#endif
+
+	/* select the start address of the required port */
+	switch (portId) {
+ 230:	81 30       	cpi	r24, 0x01	; 1
+ 232:	41 f0       	breq	.+16     	; 0x244 <GPIO_writePin+0x14>
+ 234:	80 f0       	brcs	.+32     	; 0x256 <GPIO_writePin+0x26>
+ 236:	82 30       	cpi	r24, 0x02	; 2
+ 238:	41 f0       	breq	.+16     	; 0x24a <GPIO_writePin+0x1a>
+ 23a:	83 30       	cpi	r24, 0x03	; 3
+ 23c:	49 f0       	breq	.+18     	; 0x250 <GPIO_writePin+0x20>
+*
+* return value : the function returns success or failure of the operation.
+*/
+uint8 GPIO_writePin(uint8 portId, uint8 pinId, uint8 pinValue) {
+	/* pointer to hold the start address of the port registers */
+	uint8 *startAddrees_ptr = NULL_PTR;
+ 23e:	e0 e0       	ldi	r30, 0x00	; 0
+ 240:	f0 e0       	ldi	r31, 0x00	; 0
+ 242:	0b c0       	rjmp	.+22     	; 0x25a <GPIO_writePin+0x2a>
+		/* start address of PORT A */
+		startAddrees_ptr = PORTA_START_ADDRESS;
+		break;
+		case PORTB_ID:
+		/* start address of PORT B */
+		startAddrees_ptr = PORTB_START_ADDRESS;
+ 244:	e6 e3       	ldi	r30, 0x36	; 54
+ 246:	f0 e0       	ldi	r31, 0x00	; 0
+		break;
+ 248:	08 c0       	rjmp	.+16     	; 0x25a <GPIO_writePin+0x2a>
+		case PORTC_ID:
+		/* start address of PORT C */
+		startAddrees_ptr = PORTC_START_ADDRESS;
+ 24a:	e3 e3       	ldi	r30, 0x33	; 51
+ 24c:	f0 e0       	ldi	r31, 0x00	; 0
+		break;
+ 24e:	05 c0       	rjmp	.+10     	; 0x25a <GPIO_writePin+0x2a>
+		case PORTD_ID:
+		/* start address of PORT D */
+		startAddrees_ptr = PORTD_START_ADDRESS;
+ 250:	e0 e3       	ldi	r30, 0x30	; 48
+ 252:	f0 e0       	ldi	r31, 0x00	; 0
+		break;
+ 254:	02 c0       	rjmp	.+4      	; 0x25a <GPIO_writePin+0x2a>
+
+	/* select the start address of the required port */
+	switch (portId) {
+		case PORTA_ID:
+		/* start address of PORT A */
+		startAddrees_ptr = PORTA_START_ADDRESS;
+ 256:	e9 e3       	ldi	r30, 0x39	; 57
+ 258:	f0 e0       	ldi	r31, 0x00	; 0
+		startAddrees_ptr = PORTD_START_ADDRESS;
+		break;
+	}
+
+	/* write the required value in the pin through data output register */
+	(*(startAddrees_ptr + DATA_OUTPUT_REGISTER_OFFSET)) = ((*(startAddrees_ptr
+ 25a:	22 81       	ldd	r18, Z+2	; 0x02
+	+ DATA_OUTPUT_REGISTER_OFFSET)) & (~(1 << pinId)))
+ 25c:	81 e0       	ldi	r24, 0x01	; 1
+ 25e:	90 e0       	ldi	r25, 0x00	; 0
+ 260:	06 2e       	mov	r0, r22
+ 262:	02 c0       	rjmp	.+4      	; 0x268 <GPIO_writePin+0x38>
+ 264:	88 0f       	add	r24, r24
+ 266:	99 1f       	adc	r25, r25
+ 268:	0a 94       	dec	r0
+ 26a:	e2 f7       	brpl	.-8      	; 0x264 <GPIO_writePin+0x34>
+	| (pinValue << pinId);
+ 26c:	50 e0       	ldi	r21, 0x00	; 0
+ 26e:	02 c0       	rjmp	.+4      	; 0x274 <GPIO_writePin+0x44>
+ 270:	44 0f       	add	r20, r20
+ 272:	55 1f       	adc	r21, r21
+ 274:	6a 95       	dec	r22
+ 276:	e2 f7       	brpl	.-8      	; 0x270 <GPIO_writePin+0x40>
+		startAddrees_ptr = PORTD_START_ADDRESS;
+		break;
+	}
+
+	/* write the required value in the pin through data output register */
+	(*(startAddrees_ptr + DATA_OUTPUT_REGISTER_OFFSET)) = ((*(startAddrees_ptr
+ 278:	80 95       	com	r24
+ 27a:	82 23       	and	r24, r18
+ 27c:	48 2b       	or	r20, r24
+ 27e:	42 83       	std	Z+2, r20	; 0x02
+	+ DATA_OUTPUT_REGISTER_OFFSET)) & (~(1 << pinId)))
+	| (pinValue << pinId);
+
+	/* return success of the operation */
+	return SUCCESS;
+}
+ 280:	81 e0       	ldi	r24, 0x01	; 1
+ 282:	08 95       	ret
+
+00000284 <main>:
+#include "dc_motor.h"
+#include "pwm.h"
+#include "gpio.h"
+
+int main(void)
+{
+ 284:	cf 93       	push	r28
+ 286:	df 93       	push	r29
+ 288:	cd b7       	in	r28, 0x3d	; 61
+ 28a:	de b7       	in	r29, 0x3e	; 62
+ 28c:	2c 97       	sbiw	r28, 0x0c	; 12
+ 28e:	0f b6       	in	r0, 0x3f	; 63
+ 290:	f8 94       	cli
+ 292:	de bf       	out	0x3e, r29	; 62
+ 294:	0f be       	out	0x3f, r0	; 63
+ 296:	cd bf       	out	0x3d, r28	; 61
+	
+	dc_motor dcMotorOne = {{PORTC_ID,PIN0_ID}, {PORTC_ID,PIN1_ID}, 0, PWM_CHANNEL0_ID};
+ 298:	86 e0       	ldi	r24, 0x06	; 6
+ 29a:	e0 e6       	ldi	r30, 0x60	; 96
+ 29c:	f0 e0       	ldi	r31, 0x00	; 0
+ 29e:	de 01       	movw	r26, r28
+ 2a0:	11 96       	adiw	r26, 0x01	; 1
+ 2a2:	01 90       	ld	r0, Z+
+ 2a4:	0d 92       	st	X+, r0
+ 2a6:	8a 95       	dec	r24
+ 2a8:	e1 f7       	brne	.-8      	; 0x2a2 <main+0x1e>
+	dc_motor dcMotorTwo = {{PORTD_ID,PIN0_ID}, {PORTD_ID,PIN1_ID}, 1, PWM_CHANNEL1_ID};
+ 2aa:	86 e0       	ldi	r24, 0x06	; 6
+ 2ac:	e6 e6       	ldi	r30, 0x66	; 102
+ 2ae:	f0 e0       	ldi	r31, 0x00	; 0
+ 2b0:	de 01       	movw	r26, r28
+ 2b2:	17 96       	adiw	r26, 0x07	; 7
+ 2b4:	01 90       	ld	r0, Z+
+ 2b6:	0d 92       	st	X+, r0
+ 2b8:	8a 95       	dec	r24
+ 2ba:	e1 f7       	brne	.-8      	; 0x2b4 <main+0x30>
+	
+	
+	DCmotor_init(&dcMotorOne);
+ 2bc:	ce 01       	movw	r24, r28
+ 2be:	01 96       	adiw	r24, 0x01	; 1
+ 2c0:	0e 94 41 00 	call	0x82	; 0x82 <DCmotor_init>
+	DCmotor_setSpeedAndDirection(&dcMotorOne, 100, CLOCK_WISE);
+ 2c4:	40 e0       	ldi	r20, 0x00	; 0
+ 2c6:	64 e6       	ldi	r22, 0x64	; 100
+ 2c8:	ce 01       	movw	r24, r28
+ 2ca:	01 96       	adiw	r24, 0x01	; 1
+ 2cc:	0e 94 7b 00 	call	0xf6	; 0xf6 <DCmotor_setSpeedAndDirection>
+	
+	DCmotor_init(&dcMotorTwo);
+ 2d0:	ce 01       	movw	r24, r28
+ 2d2:	07 96       	adiw	r24, 0x07	; 7
+ 2d4:	0e 94 41 00 	call	0x82	; 0x82 <DCmotor_init>
+	DCmotor_setSpeedAndDirection(&dcMotorTwo, 100, CLOCK_WISE);
+ 2d8:	40 e0       	ldi	r20, 0x00	; 0
+ 2da:	64 e6       	ldi	r22, 0x64	; 100
+ 2dc:	ce 01       	movw	r24, r28
+ 2de:	07 96       	adiw	r24, 0x07	; 7
+ 2e0:	0e 94 7b 00 	call	0xf6	; 0xf6 <DCmotor_setSpeedAndDirection>
+ 2e4:	ff cf       	rjmp	.-2      	; 0x2e4 <main+0x60>
+
+000002e6 <PWM_init>:
+ * parameters  : PWM Channel Id
+ *
+ * return value: SUCCESS or FAIL
+ */
+uint8 PWM_init(const uint8 Channel_Id)
+{
+ 2e6:	0f 93       	push	r16
+        returnValue = FAIL;
+    }
+	#endif
+    
+    // Set the PWM Channel Id
+    switch (Channel_Id)
+ 2e8:	81 30       	cpi	r24, 0x01	; 1
+ 2ea:	81 f1       	breq	.+96     	; 0x34c <PWM_init+0x66>
+ 2ec:	38 f0       	brcs	.+14     	; 0x2fc <PWM_init+0x16>
+ 2ee:	82 30       	cpi	r24, 0x02	; 2
+ 2f0:	09 f4       	brne	.+2      	; 0x2f4 <PWM_init+0xe>
+ 2f2:	59 c0       	rjmp	.+178    	; 0x3a6 <PWM_init+0xc0>
+ 2f4:	83 30       	cpi	r24, 0x03	; 3
+ 2f6:	09 f4       	brne	.+2      	; 0x2fa <PWM_init+0x14>
+ 2f8:	83 c0       	rjmp	.+262    	; 0x400 <__EEPROM_REGION_LENGTH__>
+ 2fa:	aa c0       	rjmp	.+340    	; 0x450 <__EEPROM_REGION_LENGTH__+0x50>
+    {
+    case PWM_CHANNEL0_ID: // Timer 0
+        // Set the TCNT0 Register Initial Value to 0
+        TCNT0 = 0x00;
+ 2fc:	12 be       	out	0x32, r1	; 50
+        // Set the OCR0 Register Initial Value to 255
+        OCR0 = PWM_CHANNEL0_TOP;
+ 2fe:	8f ef       	ldi	r24, 0xFF	; 255
+ 300:	8c bf       	out	0x3c, r24	; 60
+
+        // Clear the Timer Mode Bits
+        TCCR0 &= ~(0x01 << WGM00);
+ 302:	83 b7       	in	r24, 0x33	; 51
+ 304:	8f 7b       	andi	r24, 0xBF	; 191
+ 306:	83 bf       	out	0x33, r24	; 51
+        TCCR0 &= ~(0x01 << WGM01);                                   
+ 308:	83 b7       	in	r24, 0x33	; 51
+ 30a:	87 7f       	andi	r24, 0xF7	; 247
+ 30c:	83 bf       	out	0x33, r24	; 51
+        // Set the Timer Mode to Fast PWM
+        TCCR0 |= (0x01 << WGM00);
+ 30e:	83 b7       	in	r24, 0x33	; 51
+ 310:	80 64       	ori	r24, 0x40	; 64
+ 312:	83 bf       	out	0x33, r24	; 51
+        TCCR0 |= (0x01 << WGM01);
+ 314:	83 b7       	in	r24, 0x33	; 51
+ 316:	88 60       	ori	r24, 0x08	; 8
+ 318:	83 bf       	out	0x33, r24	; 51
+
+        // Clear the Compare Output Mode Bits
+        TCCR0 &= ~(0x03 << COM00);                                      
+ 31a:	83 b7       	in	r24, 0x33	; 51
+ 31c:	8f 7c       	andi	r24, 0xCF	; 207
+ 31e:	83 bf       	out	0x33, r24	; 51
+        // Set the Compare Output Mode to Non-Inverting Mode
+        TCCR0 |= (0x01 << COM01);
+ 320:	83 b7       	in	r24, 0x33	; 51
+ 322:	80 62       	ori	r24, 0x20	; 32
+ 324:	83 bf       	out	0x33, r24	; 51
+
+        // Clear the Pre-scaler Bits
+        TCCR0 &= ~(0x07 << CS00);                                       
+ 326:	83 b7       	in	r24, 0x33	; 51
+ 328:	88 7f       	andi	r24, 0xF8	; 248
+ 32a:	83 bf       	out	0x33, r24	; 51
+        // Set the Pre-scaler to 1 (No Pre-scaling)
+        TCCR0 |= (0x01 << CS00); 
+ 32c:	83 b7       	in	r24, 0x33	; 51
+ 32e:	81 60       	ori	r24, 0x01	; 1
+ 330:	83 bf       	out	0x33, r24	; 51
+		
+		// Set the PWM Channel Pin as Output Pin
+		returnValue = returnValue && GPIO_pinConfiguration(PWM_CHANNEL0_PORT, PWM_CHANNEL0_PIN, OUTPUT_PIN, LOGIC_LOW, PULL_UP_DEACTIVATION);                                      
+ 332:	00 e0       	ldi	r16, 0x00	; 0
+ 334:	20 e0       	ldi	r18, 0x00	; 0
+ 336:	41 e0       	ldi	r20, 0x01	; 1
+ 338:	63 e0       	ldi	r22, 0x03	; 3
+ 33a:	81 e0       	ldi	r24, 0x01	; 1
+ 33c:	0e 94 c6 00 	call	0x18c	; 0x18c <GPIO_pinConfiguration>
+ 340:	88 23       	and	r24, r24
+ 342:	11 f0       	breq	.+4      	; 0x348 <PWM_init+0x62>
+ 344:	81 e0       	ldi	r24, 0x01	; 1
+ 346:	85 c0       	rjmp	.+266    	; 0x452 <__EEPROM_REGION_LENGTH__+0x52>
+ 348:	80 e0       	ldi	r24, 0x00	; 0
+
+        break;
+ 34a:	83 c0       	rjmp	.+262    	; 0x452 <__EEPROM_REGION_LENGTH__+0x52>
+
+    case PWM_CHANNEL1_ID: // Timer 1 Channel A
+        // Set the TCNT1 Register Initial Value to 0
+        TCNT1 = 0x00;
+ 34c:	1d bc       	out	0x2d, r1	; 45
+ 34e:	1c bc       	out	0x2c, r1	; 44
+        // Set the OCR1A Register Initial Value to 255
+        OCR1A = PWM_CHANNEL1_TOP;
+ 350:	2f ef       	ldi	r18, 0xFF	; 255
+ 352:	30 e0       	ldi	r19, 0x00	; 0
+ 354:	3b bd       	out	0x2b, r19	; 43
+ 356:	2a bd       	out	0x2a, r18	; 42
+
+        // Clear the Timer Mode Bits                                 
+        TCCR1A &= ~(0x03 << WGM10);
+ 358:	8f b5       	in	r24, 0x2f	; 47
+ 35a:	8c 7f       	andi	r24, 0xFC	; 252
+ 35c:	8f bd       	out	0x2f, r24	; 47
+        TCCR1B &= ~(0x03 << WGM12);                                     
+ 35e:	8e b5       	in	r24, 0x2e	; 46
+ 360:	87 7e       	andi	r24, 0xE7	; 231
+ 362:	8e bd       	out	0x2e, r24	; 46
+        // Set the Timer Mode to Fast PWM                                 
+        TCCR1A |= (0x01 << WGM11);
+ 364:	8f b5       	in	r24, 0x2f	; 47
+ 366:	82 60       	ori	r24, 0x02	; 2
+ 368:	8f bd       	out	0x2f, r24	; 47
+        TCCR1B |= (0x03 << WGM12);
+ 36a:	8e b5       	in	r24, 0x2e	; 46
+ 36c:	88 61       	ori	r24, 0x18	; 24
+ 36e:	8e bd       	out	0x2e, r24	; 46
+        // Set the ICR1 Register Value to TOP Value (0xff)
+        ICR1 = PWM_CHANNEL1_TOP;
+ 370:	37 bd       	out	0x27, r19	; 39
+ 372:	26 bd       	out	0x26, r18	; 38
+
+        // Clear the Compare Output Mode Bits
+        TCCR1A &= ~(0x03 << COM1A0);                                    
+ 374:	8f b5       	in	r24, 0x2f	; 47
+ 376:	8f 73       	andi	r24, 0x3F	; 63
+ 378:	8f bd       	out	0x2f, r24	; 47
+        // Set the Compare Output Mode to Non-Inverting Mode
+        TCCR1A |= (0x01 << COM1A1);                                     
+ 37a:	8f b5       	in	r24, 0x2f	; 47
+ 37c:	80 68       	ori	r24, 0x80	; 128
+ 37e:	8f bd       	out	0x2f, r24	; 47
+
+        // Clear the Pre-scaler Bits
+        TCCR1B &= ~(0x07 << CS10);                                     
+ 380:	8e b5       	in	r24, 0x2e	; 46
+ 382:	88 7f       	andi	r24, 0xF8	; 248
+ 384:	8e bd       	out	0x2e, r24	; 46
+        // Set the Pre-scaler to 1 (No Pre-scaling)
+        TCCR1B |= (0x01 << CS10); 
+ 386:	8e b5       	in	r24, 0x2e	; 46
+ 388:	81 60       	ori	r24, 0x01	; 1
+ 38a:	8e bd       	out	0x2e, r24	; 46
+		
+		// Set the PWM Channel Pin as Output Pin
+		returnValue = returnValue && GPIO_pinConfiguration(PWM_CHANNEL1_PORT, PWM_CHANNEL1_PIN, OUTPUT_PIN, LOGIC_LOW, PULL_UP_DEACTIVATION);                                     
+ 38c:	00 e0       	ldi	r16, 0x00	; 0
+ 38e:	20 e0       	ldi	r18, 0x00	; 0
+ 390:	41 e0       	ldi	r20, 0x01	; 1
+ 392:	65 e0       	ldi	r22, 0x05	; 5
+ 394:	83 e0       	ldi	r24, 0x03	; 3
+ 396:	0e 94 c6 00 	call	0x18c	; 0x18c <GPIO_pinConfiguration>
+ 39a:	88 23       	and	r24, r24
+ 39c:	11 f0       	breq	.+4      	; 0x3a2 <PWM_init+0xbc>
+ 39e:	81 e0       	ldi	r24, 0x01	; 1
+ 3a0:	58 c0       	rjmp	.+176    	; 0x452 <__EEPROM_REGION_LENGTH__+0x52>
+ 3a2:	80 e0       	ldi	r24, 0x00	; 0
+
+        break;
+ 3a4:	56 c0       	rjmp	.+172    	; 0x452 <__EEPROM_REGION_LENGTH__+0x52>
+
+    case PWM_CHANNEL2_ID: // Timer 1 Channel B
+        // Set the TCNT1 Register Initial Value to 0
+        TCNT1 = 0x00;
+ 3a6:	1d bc       	out	0x2d, r1	; 45
+ 3a8:	1c bc       	out	0x2c, r1	; 44
+        // Set the OCR1B Register Initial Value to 255
+        OCR1B = PWM_CHANNEL2_TOP;
+ 3aa:	2f ef       	ldi	r18, 0xFF	; 255
+ 3ac:	30 e0       	ldi	r19, 0x00	; 0
+ 3ae:	39 bd       	out	0x29, r19	; 41
+ 3b0:	28 bd       	out	0x28, r18	; 40
+
+        // Clear the Timer Mode Bits
+        TCCR1A &= ~(0x03 << WGM10);
+ 3b2:	8f b5       	in	r24, 0x2f	; 47
+ 3b4:	8c 7f       	andi	r24, 0xFC	; 252
+ 3b6:	8f bd       	out	0x2f, r24	; 47
+        TCCR1B &= ~(0x03 << WGM12);
+ 3b8:	8e b5       	in	r24, 0x2e	; 46
+ 3ba:	87 7e       	andi	r24, 0xE7	; 231
+ 3bc:	8e bd       	out	0x2e, r24	; 46
+        // Set the Timer Mode to Fast PWM
+        TCCR1A |= (0x01 << WGM11);
+ 3be:	8f b5       	in	r24, 0x2f	; 47
+ 3c0:	82 60       	ori	r24, 0x02	; 2
+ 3c2:	8f bd       	out	0x2f, r24	; 47
+        TCCR1B |= (0x03 << WGM12);
+ 3c4:	8e b5       	in	r24, 0x2e	; 46
+ 3c6:	88 61       	ori	r24, 0x18	; 24
+ 3c8:	8e bd       	out	0x2e, r24	; 46
+        // Set the ICR1 Register Value to TOP Value (0xff)
+        ICR1 = PWM_CHANNEL2_TOP;
+ 3ca:	37 bd       	out	0x27, r19	; 39
+ 3cc:	26 bd       	out	0x26, r18	; 38
+
+        // Clear the Compare Output Mode Bits
+        TCCR1A &= ~(0x03 << COM1B0);                                    
+ 3ce:	8f b5       	in	r24, 0x2f	; 47
+ 3d0:	8f 7c       	andi	r24, 0xCF	; 207
+ 3d2:	8f bd       	out	0x2f, r24	; 47
+        // Set the Compare Output Mode to Non-Inverting Mode
+        TCCR1A |= (0x01 << COM1B1);
+ 3d4:	8f b5       	in	r24, 0x2f	; 47
+ 3d6:	80 62       	ori	r24, 0x20	; 32
+ 3d8:	8f bd       	out	0x2f, r24	; 47
+
+        // Clear the Pre-scaler Bits
+        TCCR1B &= ~(0x07 << CS10);
+ 3da:	8e b5       	in	r24, 0x2e	; 46
+ 3dc:	88 7f       	andi	r24, 0xF8	; 248
+ 3de:	8e bd       	out	0x2e, r24	; 46
+        // Set the Pre-scaler to 1 (No Pre-scaling)
+        TCCR1B |= (0x01 << CS10);    
+ 3e0:	8e b5       	in	r24, 0x2e	; 46
+ 3e2:	81 60       	ori	r24, 0x01	; 1
+ 3e4:	8e bd       	out	0x2e, r24	; 46
+		
+		// Set the PWM Channel Pin as Output Pin
+		returnValue = returnValue && GPIO_pinConfiguration(PWM_CHANNEL2_PORT, PWM_CHANNEL2_PIN, OUTPUT_PIN, LOGIC_LOW, PULL_UP_DEACTIVATION);                                   
+ 3e6:	00 e0       	ldi	r16, 0x00	; 0
+ 3e8:	20 e0       	ldi	r18, 0x00	; 0
+ 3ea:	41 e0       	ldi	r20, 0x01	; 1
+ 3ec:	64 e0       	ldi	r22, 0x04	; 4
+ 3ee:	83 e0       	ldi	r24, 0x03	; 3
+ 3f0:	0e 94 c6 00 	call	0x18c	; 0x18c <GPIO_pinConfiguration>
+ 3f4:	88 23       	and	r24, r24
+ 3f6:	11 f0       	breq	.+4      	; 0x3fc <PWM_init+0x116>
+ 3f8:	81 e0       	ldi	r24, 0x01	; 1
+ 3fa:	2b c0       	rjmp	.+86     	; 0x452 <__EEPROM_REGION_LENGTH__+0x52>
+ 3fc:	80 e0       	ldi	r24, 0x00	; 0
+
+        break;
+ 3fe:	29 c0       	rjmp	.+82     	; 0x452 <__EEPROM_REGION_LENGTH__+0x52>
+
+    case PWM_CHANNEL3_ID: // Timer 2
+        // Set the TCNT2 Register Initial Value to 0
+        TCNT2 = 0x00;
+ 400:	14 bc       	out	0x24, r1	; 36
+        // Set the OCR2 Register Initial Value to 255
+        OCR2 = PWM_CHANNEL3_TOP;
+ 402:	8f ef       	ldi	r24, 0xFF	; 255
+ 404:	83 bd       	out	0x23, r24	; 35
+
+        // Clear the Timer Mode Bits
+        TCCR2 &= ~(0x01 << WGM20);
+ 406:	85 b5       	in	r24, 0x25	; 37
+ 408:	8f 7b       	andi	r24, 0xBF	; 191
+ 40a:	85 bd       	out	0x25, r24	; 37
+        TCCR2 &= ~(0x01 << WGM21);
+ 40c:	85 b5       	in	r24, 0x25	; 37
+ 40e:	87 7f       	andi	r24, 0xF7	; 247
+ 410:	85 bd       	out	0x25, r24	; 37
+        // Set the Timer Mode to Fast PWM
+        TCCR2 |= (0x01 << WGM20);
+ 412:	85 b5       	in	r24, 0x25	; 37
+ 414:	80 64       	ori	r24, 0x40	; 64
+ 416:	85 bd       	out	0x25, r24	; 37
+        TCCR2 |= (0x01 << WGM21);
+ 418:	85 b5       	in	r24, 0x25	; 37
+ 41a:	88 60       	ori	r24, 0x08	; 8
+ 41c:	85 bd       	out	0x25, r24	; 37
+
+        // Clear the Compare Output Mode Bits
+        TCCR2 &= ~(0x03 << COM20);
+ 41e:	85 b5       	in	r24, 0x25	; 37
+ 420:	8f 7c       	andi	r24, 0xCF	; 207
+ 422:	85 bd       	out	0x25, r24	; 37
+        // Set the Compare Output Mode to Non-Inverting Mode
+        TCCR2 |= (0x01 << COM21);
+ 424:	85 b5       	in	r24, 0x25	; 37
+ 426:	80 62       	ori	r24, 0x20	; 32
+ 428:	85 bd       	out	0x25, r24	; 37
+
+        // Clear the Pre-scaler Bits
+        TCCR2 &= ~(0x07 << CS20);
+ 42a:	85 b5       	in	r24, 0x25	; 37
+ 42c:	88 7f       	andi	r24, 0xF8	; 248
+ 42e:	85 bd       	out	0x25, r24	; 37
+        // Set the Pre-scaler to 1 (No Pre-scaling)
+        TCCR2 |= (0x01 << CS20);
+ 430:	85 b5       	in	r24, 0x25	; 37
+ 432:	81 60       	ori	r24, 0x01	; 1
+ 434:	85 bd       	out	0x25, r24	; 37
+		
+		// Set the PWM Channel Pin as Output Pin
+		returnValue = returnValue && GPIO_pinConfiguration(PWM_CHANNEL3_PORT, PWM_CHANNEL3_PIN, OUTPUT_PIN, LOGIC_LOW, PULL_UP_DEACTIVATION);
+ 436:	00 e0       	ldi	r16, 0x00	; 0
+ 438:	20 e0       	ldi	r18, 0x00	; 0
+ 43a:	41 e0       	ldi	r20, 0x01	; 1
+ 43c:	67 e0       	ldi	r22, 0x07	; 7
+ 43e:	83 e0       	ldi	r24, 0x03	; 3
+ 440:	0e 94 c6 00 	call	0x18c	; 0x18c <GPIO_pinConfiguration>
+ 444:	88 23       	and	r24, r24
+ 446:	11 f0       	breq	.+4      	; 0x44c <__EEPROM_REGION_LENGTH__+0x4c>
+ 448:	81 e0       	ldi	r24, 0x01	; 1
+ 44a:	03 c0       	rjmp	.+6      	; 0x452 <__EEPROM_REGION_LENGTH__+0x52>
+ 44c:	80 e0       	ldi	r24, 0x00	; 0
+
+        break;      
+ 44e:	01 c0       	rjmp	.+2      	; 0x452 <__EEPROM_REGION_LENGTH__+0x52>
+ *
+ * return value: SUCCESS or FAIL
+ */
+uint8 PWM_init(const uint8 Channel_Id)
+{
+	uint8 returnValue = SUCCESS;
+ 450:	81 e0       	ldi	r24, 0x01	; 1
+    default:
+        break;
+    }
+
+    return returnValue;
+}
+ 452:	0f 91       	pop	r16
+ 454:	08 95       	ret
+
+00000456 <PWM_setDutyCycle>:
+    } 
+	#endif
+	
+    // Set the Top Value of the PWM Channel
+    uint8 top = 0x00;
+    switch (Channel_Id)
+ 456:	84 30       	cpi	r24, 0x04	; 4
+ 458:	10 f0       	brcs	.+4      	; 0x45e <PWM_setDutyCycle+0x8>
+        return FAIL;
+    } 
+	#endif
+	
+    // Set the Top Value of the PWM Channel
+    uint8 top = 0x00;
+ 45a:	20 e0       	ldi	r18, 0x00	; 0
+ 45c:	01 c0       	rjmp	.+2      	; 0x460 <PWM_setDutyCycle+0xa>
+    switch (Channel_Id)
+    {
+    case PWM_CHANNEL0_ID:
+        top = PWM_CHANNEL0_TOP;
+ 45e:	2f ef       	ldi	r18, 0xFF	; 255
+    default:
+        break;
+    }
+
+    // Set the PWM Channel Id
+    switch (Channel_Id)
+ 460:	81 30       	cpi	r24, 0x01	; 1
+ 462:	99 f0       	breq	.+38     	; 0x48a <PWM_setDutyCycle+0x34>
+ 464:	28 f0       	brcs	.+10     	; 0x470 <PWM_setDutyCycle+0x1a>
+ 466:	82 30       	cpi	r24, 0x02	; 2
+ 468:	f1 f0       	breq	.+60     	; 0x4a6 <PWM_setDutyCycle+0x50>
+ 46a:	83 30       	cpi	r24, 0x03	; 3
+ 46c:	51 f1       	breq	.+84     	; 0x4c2 <PWM_setDutyCycle+0x6c>
+ 46e:	35 c0       	rjmp	.+106    	; 0x4da <PWM_setDutyCycle+0x84>
+    {
+    case PWM_CHANNEL0_ID: // Timer 0
+        // Set the OCR0 Register Value
+        OCR0 = (((uint32)top) * DutyCycle) / PWM_DUTY_CYCLE_MAX;
+ 470:	30 e0       	ldi	r19, 0x00	; 0
+ 472:	a6 2f       	mov	r26, r22
+ 474:	b0 e0       	ldi	r27, 0x00	; 0
+ 476:	0e 94 91 02 	call	0x522	; 0x522 <__umulhisi3>
+ 47a:	24 e6       	ldi	r18, 0x64	; 100
+ 47c:	30 e0       	ldi	r19, 0x00	; 0
+ 47e:	40 e0       	ldi	r20, 0x00	; 0
+ 480:	50 e0       	ldi	r21, 0x00	; 0
+ 482:	0e 94 6f 02 	call	0x4de	; 0x4de <__udivmodsi4>
+ 486:	2c bf       	out	0x3c, r18	; 60
+        break;
+ 488:	28 c0       	rjmp	.+80     	; 0x4da <PWM_setDutyCycle+0x84>
+
+    case PWM_CHANNEL1_ID: // Timer 1 Channel A
+        // Set the OCR1A Register Value
+        OCR1A = (((uint32)top) * DutyCycle) / PWM_DUTY_CYCLE_MAX;
+ 48a:	30 e0       	ldi	r19, 0x00	; 0
+ 48c:	a6 2f       	mov	r26, r22
+ 48e:	b0 e0       	ldi	r27, 0x00	; 0
+ 490:	0e 94 91 02 	call	0x522	; 0x522 <__umulhisi3>
+ 494:	24 e6       	ldi	r18, 0x64	; 100
+ 496:	30 e0       	ldi	r19, 0x00	; 0
+ 498:	40 e0       	ldi	r20, 0x00	; 0
+ 49a:	50 e0       	ldi	r21, 0x00	; 0
+ 49c:	0e 94 6f 02 	call	0x4de	; 0x4de <__udivmodsi4>
+ 4a0:	3b bd       	out	0x2b, r19	; 43
+ 4a2:	2a bd       	out	0x2a, r18	; 42
+        break;
+ 4a4:	1a c0       	rjmp	.+52     	; 0x4da <PWM_setDutyCycle+0x84>
+    case PWM_CHANNEL2_ID: // Timer 1 Channel B
+        // Set the OCR1B Register Value
+        OCR1B = (((uint32)top) * DutyCycle) / PWM_DUTY_CYCLE_MAX;
+ 4a6:	30 e0       	ldi	r19, 0x00	; 0
+ 4a8:	a6 2f       	mov	r26, r22
+ 4aa:	b0 e0       	ldi	r27, 0x00	; 0
+ 4ac:	0e 94 91 02 	call	0x522	; 0x522 <__umulhisi3>
+ 4b0:	24 e6       	ldi	r18, 0x64	; 100
+ 4b2:	30 e0       	ldi	r19, 0x00	; 0
+ 4b4:	40 e0       	ldi	r20, 0x00	; 0
+ 4b6:	50 e0       	ldi	r21, 0x00	; 0
+ 4b8:	0e 94 6f 02 	call	0x4de	; 0x4de <__udivmodsi4>
+ 4bc:	39 bd       	out	0x29, r19	; 41
+ 4be:	28 bd       	out	0x28, r18	; 40
+        break;
+ 4c0:	0c c0       	rjmp	.+24     	; 0x4da <PWM_setDutyCycle+0x84>
+
+    case PWM_CHANNEL3_ID: // Timer 2
+        // Set the OCR2 Register Value
+        OCR2 = (((uint32)top) * DutyCycle) / PWM_DUTY_CYCLE_MAX;
+ 4c2:	30 e0       	ldi	r19, 0x00	; 0
+ 4c4:	a6 2f       	mov	r26, r22
+ 4c6:	b0 e0       	ldi	r27, 0x00	; 0
+ 4c8:	0e 94 91 02 	call	0x522	; 0x522 <__umulhisi3>
+ 4cc:	24 e6       	ldi	r18, 0x64	; 100
+ 4ce:	30 e0       	ldi	r19, 0x00	; 0
+ 4d0:	40 e0       	ldi	r20, 0x00	; 0
+ 4d2:	50 e0       	ldi	r21, 0x00	; 0
+ 4d4:	0e 94 6f 02 	call	0x4de	; 0x4de <__udivmodsi4>
+ 4d8:	23 bd       	out	0x23, r18	; 35
+        break;
+    }
+
+    return SUCCESS;
+
+ 4da:	81 e0       	ldi	r24, 0x01	; 1
+ 4dc:	08 95       	ret
+
+000004de <__udivmodsi4>:
+ 4de:	a1 e2       	ldi	r26, 0x21	; 33
+ 4e0:	1a 2e       	mov	r1, r26
+ 4e2:	aa 1b       	sub	r26, r26
+ 4e4:	bb 1b       	sub	r27, r27
+ 4e6:	fd 01       	movw	r30, r26
+ 4e8:	0d c0       	rjmp	.+26     	; 0x504 <__udivmodsi4_ep>
+
+000004ea <__udivmodsi4_loop>:
+ 4ea:	aa 1f       	adc	r26, r26
+ 4ec:	bb 1f       	adc	r27, r27
+ 4ee:	ee 1f       	adc	r30, r30
+ 4f0:	ff 1f       	adc	r31, r31
+ 4f2:	a2 17       	cp	r26, r18
+ 4f4:	b3 07       	cpc	r27, r19
+ 4f6:	e4 07       	cpc	r30, r20
+ 4f8:	f5 07       	cpc	r31, r21
+ 4fa:	20 f0       	brcs	.+8      	; 0x504 <__udivmodsi4_ep>
+ 4fc:	a2 1b       	sub	r26, r18
+ 4fe:	b3 0b       	sbc	r27, r19
+ 500:	e4 0b       	sbc	r30, r20
+ 502:	f5 0b       	sbc	r31, r21
+
+00000504 <__udivmodsi4_ep>:
+ 504:	66 1f       	adc	r22, r22
+ 506:	77 1f       	adc	r23, r23
+ 508:	88 1f       	adc	r24, r24
+ 50a:	99 1f       	adc	r25, r25
+ 50c:	1a 94       	dec	r1
+ 50e:	69 f7       	brne	.-38     	; 0x4ea <__udivmodsi4_loop>
+ 510:	60 95       	com	r22
+ 512:	70 95       	com	r23
+ 514:	80 95       	com	r24
+ 516:	90 95       	com	r25
+ 518:	9b 01       	movw	r18, r22
+ 51a:	ac 01       	movw	r20, r24
+ 51c:	bd 01       	movw	r22, r26
+ 51e:	cf 01       	movw	r24, r30
+ 520:	08 95       	ret
+
+00000522 <__umulhisi3>:
+ 522:	a2 9f       	mul	r26, r18
+ 524:	b0 01       	movw	r22, r0
+ 526:	b3 9f       	mul	r27, r19
+ 528:	c0 01       	movw	r24, r0
+ 52a:	a3 9f       	mul	r26, r19
+ 52c:	70 0d       	add	r23, r0
+ 52e:	81 1d       	adc	r24, r1
+ 530:	11 24       	eor	r1, r1
+ 532:	91 1d       	adc	r25, r1
+ 534:	b2 9f       	mul	r27, r18
+ 536:	70 0d       	add	r23, r0
+ 538:	81 1d       	adc	r24, r1
+ 53a:	11 24       	eor	r1, r1
+ 53c:	91 1d       	adc	r25, r1
+ 53e:	08 95       	ret
+
+00000540 <_exit>:
+ 540:	f8 94       	cli
+
+00000542 <__stop_program>:
+ 542:	ff cf       	rjmp	.-2      	; 0x542 <__stop_program>
