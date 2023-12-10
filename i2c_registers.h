@@ -15,12 +15,12 @@
 /***********************************I2C Registers*******************************************/
 /*******************************************************************************************/
 
-#define CLEAR_ALL_BITS 0x00000000
+//#define CLEAR_ALL_BITS 0x00000000
 
 /* Definition of the start address of the I2C */
-#define I2C1_BASE_ADDRESS 0x40005400
-#define I2C2_BASE_ADDRESS 0x40005800
-#define I2C3_BASE_ADDRESS 0x40005C00
+#define I2C1 0x40005400
+#define I2C2 0x40005800
+#define I2C3 0x40005C00
 
 /* definition of the offset of the registers from start address */
 #define I2Cx_CR1_OFFSET     (0x00)

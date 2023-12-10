@@ -76,7 +76,7 @@ void UART_sendByte(USART_STRUCT * usart, uint8 data)
 {
         /* wait until the content of the TDR register is been transferred into 
            the shift register */
-	while(BIT_IS_CLEAR((*(uint32 *)(usart->type + USART_SR_ADDRESS_OFFSET)),TXE) );
+	while(BIT_IS_CLEAR((*(uint32 *)(usart->type + USART_SR_ADDRESS_OFFSET)),TXE));
 	/* write the data to the data register */ 
         (*(uint32 *)(usart->type + USART_DR_ADDRESS_OFFSET)) = data;
 }
@@ -106,7 +106,7 @@ uint8 UART_receiveByte(USART_STRUCT * usart)
  *
  * return value : NONE.
  */
-void UART_sendString(USART_STRUCT * usart, uint8* Str)
+void UART_sendString(USART_STRUCT* usart, uint8* Str)
 {
       /* a variable to check every index in the string to know if we reached the 
          end of the string('\0') or not yet */
@@ -128,7 +128,7 @@ void UART_sendString(USART_STRUCT * usart, uint8* Str)
  *
  * return value : NONE.
  */
-void UART_receiveString(USART_STRUCT * usart, char * Str)
+void UART_receiveString(USART_STRUCT* usart, uint8* Str)
 {
 	uint8 i = 0;
 	Str[i] = UART_receiveByte(usart);
@@ -140,4 +140,8 @@ void UART_receiveString(USART_STRUCT * usart, char * Str)
 
 
 	}
+        UART_receiveByte(usart);
+        Str[i] = '\0';
+        volatile uint8 x =0;
+        x++;
 }

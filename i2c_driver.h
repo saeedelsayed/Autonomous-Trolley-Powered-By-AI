@@ -69,7 +69,7 @@
 #define I2C_RISE_TIME_400 0x01
 
 /* I2C filter */
-enum I2C_filter
+typedef enum
 {
     I2C_FILTER_DISABLED = 0x00,
     I2C_FILTER_1 ,
@@ -87,23 +87,23 @@ enum I2C_filter
     I2C_FILTER_13 ,
     I2C_FILTER_14 ,
     I2C_FILTER_15 
-};
+}I2C_filter;
 
 /* I2C return status */
-enum I2C_status
+typedef enum
 {
     I2C_STATUS_OK = 0x00,
     I2C_STATUS_ERROR,
     I2C_STATUS_BUSY,
     I2C_STATUS_TIMEOUT
-};
+}I2C_status;
 
 /* I2C return status */
-enum I2C_direction
+typedef enum I2C_direction
 {
     I2C_DIRECTION_TRANSMITTER = 0x00,
     I2C_DIRECTION_RECEIVER
-};
+}I2C_direction;
 
 
 
@@ -117,8 +117,7 @@ typedef struct
     uint32 type; /* holds the start address of the I2C */
     // uint8 state; /* holds the initial state of the I2C */
      uint8 mode; /* holds the mode of the I2C */
-    
-
+     
 }I2C_config_t;
 
 /************************************************************************/
@@ -161,17 +160,38 @@ standard_return_t I2C_Master_restart(const I2C_config_t *i2c);
 standard_return_t I2C_Master_stop(const I2C_config_t *i2c);
 
 /**
+ * @brief This function is responsible for writing address on the bus
+ * 
+ * @return uint8 
+ */
+standard_return_t I2C_writeAddress(const I2C_config_t *i2c, uint8 address);
+
+/**
  * @brief This function is responsible for writing data on the bus
  * 
  * @return uint8 
  */
-standard_return_t I2C_write(const I2C_config_t *i2c, uint8 data);
+standard_return_t I2C_writeData(const I2C_config_t *i2c, uint8 data);
+
+standard_return_t I2C_enableACK(const I2C_config_t *i2c);
+
+standard_return_t I2C_disableACK(const I2C_config_t *i2c);
+
+standard_return_t I2C_clearAddressFlag(const I2C_config_t *i2c);
+
 
 /**
  * @brief This function is responsible for reading data from the bus
  * 
  * @return uint8 
  */
-standard_return_t I2C_read(const I2C_config_t *i2c, uint8 ack, uint8 *data);
+standard_return_t I2C_read(const I2C_config_t *i2c, uint8* data);
+
+
+standard_return_t I2C_Master_transmitByte(const I2C_config_t *i2c, uint8 address, uint8 data);
+
+standard_return_t I2C_Master_transmitString(const I2C_config_t *i2c, uint8 address, uint8* str);
+
+standard_return_t I2C_Master_receiveString(const I2C_config_t *i2c, uint8 n, uint8* str);
 
 #endif /* I2C_DRIVER_H_ */

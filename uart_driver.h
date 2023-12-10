@@ -21,7 +21,7 @@
 /*******************************************************************************************/
 /************************************ Defines **********************************************/
 /*******************************************************************************************/
-#define CLEAR_ALL_BITS           0x0000
+//#define CLEAR_ALL_BITS           0x0000
 
 /* uart configuration */
 #define UART_ENABLE              0x01
@@ -105,7 +105,7 @@ void UART_sendString(USART_STRUCT * usart, uint8* str);
  *
  * return value : NONE.
  */
-void UART_receiveString(USART_STRUCT * usart, char * Str);
+void UART_receiveString(USART_STRUCT * usart, uint8* Str);
 
 
 

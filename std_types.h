@@ -55,4 +55,6 @@ typedef uint8 standard_return_t;
 #define ON                     1U
 #define OFF                    0U
 
+#define CLEAR_ALL_BITS 0x00000000
+
 #endif /* STD_TYPES_H_ */
