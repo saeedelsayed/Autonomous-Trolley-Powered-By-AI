@@ -33,6 +33,7 @@ standard_return_t I2C_init(const I2C_config_t *i2c){
     ret_val = E_NOT_OK;
   }
   else {
+    
     /* enable the clock for the I2C (warning...it is static)*/
     RCC_APB1ENR |= (1 << 21);  /* I2C1 */
     // RCC_APB1ENR |= (1 << 22);  /* I2C2 */
@@ -65,11 +66,9 @@ standard_return_t I2C_init(const I2C_config_t *i2c){
     
     /* enable I2C */
     (*(uint32 *)(i2c->type + I2Cx_CR1_OFFSET)) |= (I2C_ENABLE << I2C_CR1_PE);
-    
   }
   
   return ret_val;
-  
 }
 
 /**
@@ -92,6 +91,7 @@ standard_return_t I2C_Deinit(const I2C_config_t *i2c)
   
   return ret_val;
 }
+
 /**
 * @brief This function is responsible for sending the start bit
 * 
@@ -158,8 +158,8 @@ standard_return_t I2C_writeAddress(const I2C_config_t *i2c, uint8 address)
 
 standard_return_t I2C_clearAddressFlag(const I2C_config_t *i2c)
 {
-    (*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET));
-    (*(uint32 *)(i2c->type + I2Cx_SR2_OFFSET));
+  volatile uint32 dummyVariable = (*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET));
+  dummyVariable = (*(uint32 *)(i2c->type + I2Cx_SR2_OFFSET));
 }    
 /**
 * @brief This function is responsible for writing data on the bus
@@ -293,17 +293,16 @@ standard_return_t I2C_Master_receiveString(const I2C_config_t *i2c, uint8 n, uin
       i++;
       n--;
     }
-    
   }
 }
 
 
 standard_return_t I2C_enableACK(const I2C_config_t *i2c)
 {
-    (*(uint32 *)(i2c->type + I2Cx_CR1_OFFSET)) |= (1 << I2C_CR1_ACK);
+  (*(uint32 *)(i2c->type + I2Cx_CR1_OFFSET)) |= (1 << I2C_CR1_ACK);
 }
 
 standard_return_t I2C_disableACK(const I2C_config_t *i2c)
 {
-    (*(uint32 *)(i2c->type + I2Cx_CR1_OFFSET)) &= ~(1 << I2C_CR1_ACK);
+  (*(uint32 *)(i2c->type + I2Cx_CR1_OFFSET)) &= ~(1 << I2C_CR1_ACK);
 }

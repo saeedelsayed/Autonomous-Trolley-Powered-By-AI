@@ -6,68 +6,51 @@
   <configuration>
     <name>Debug</name>
     <outputs>
-      <file>$PROJ_DIR$\i2c_registers.h</file>
-      <file>$PROJ_DIR$\port.c</file>
-      <file>$PROJ_DIR$\std_types.h</file>
-      <file>$PROJ_DIR$\uart_driver.c</file>
-      <file>$PROJ_DIR$\bluetooth.c</file>
-      <file>$PROJ_DIR$\port.h</file>
-      <file>$PROJ_DIR$\uart_registers.h</file>
-      <file>$PROJ_DIR$\common_macros.h</file>
-      <file>$PROJ_DIR$\bluetooth.h</file>
-      <file>$PROJ_DIR$\port_registers.h</file>
-      <file>$PROJ_DIR$\uart_driver.h</file>
-      <file>$PROJ_DIR$\Debug\Exe\c.out</file>
-      <file>$PROJ_DIR$\i2c_driver.c</file>
-      <file>$TOOLKIT_DIR$\config\linker\ST\stm32f401xC.icf</file>
       <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
-      <file>$PROJ_DIR$\i2c_driver.h</file>
-      <file>$PROJ_DIR$\main.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\uart_driver.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\PORT_Driver.pbd</file>
-      <file>$PROJ_DIR$\Debug\Obj\bluetooth.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\i2c_driver.pbi</file>
-      <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
-      <file>$PROJ_DIR$\Debug\Obj\uart_driver.pbi</file>
       <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
-      <file>$PROJ_DIR$\Debug\Obj\port.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart_driver.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\PORT_Driver.pbd</file>
+      <file>$PROJ_DIR$\Debug\Exe\c.out</file>
       <file>$PROJ_DIR$\Debug\Obj\i2c_driver.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\bluetooth.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
+      <file>$TOOLKIT_DIR$\config\linker\ST\stm32f401xC.icf</file>
+      <file>$PROJ_DIR$\uart_driver.c</file>
+      <file>$PROJ_DIR$\std_types.h</file>
       <file>$TOOLKIT_DIR$\lib\m7M_tlv.a</file>
-      <file>$PROJ_DIR$\Debug\Exe\PORT_Driver.hex</file>
+      <file>$PROJ_DIR$\port.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\port.pbi</file>
+      <file>$PROJ_DIR$\port_registers.h</file>
       <file>$PROJ_DIR$\Debug\Obj\port.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart_driver.o</file>
+      <file>$PROJ_DIR$\uart_registers.h</file>
+      <file>$PROJ_DIR$\Debug\Exe\PORT_Driver.hex</file>
+      <file>$PROJ_DIR$\Debug\Obj\bluetooth.pbi</file>
+      <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+      <file>$PROJ_DIR$\uart_driver.h</file>
+      <file>$PROJ_DIR$\port.c</file>
+      <file>$PROJ_DIR$\i2c_driver.h</file>
+      <file>$PROJ_DIR$\bluetooth.h</file>
+      <file>$PROJ_DIR$\i2c_registers.h</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\common_macros.h</file>
+      <file>$PROJ_DIR$\i2c_driver.c</file>
+      <file>$PROJ_DIR$\bluetooth.c</file>
     </outputs>
     <file>
-      <name>[ROOT_NODE]</name>
+      <name>$PROJ_DIR$\Debug\Exe\c.out</name>
       <outputs>
         <tool>
-          <name>ILINK</name>
-          <file> 11</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\port.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 25</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 31</file>
+          <name>OBJCOPY</name>
+          <file> 20</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 2 9 5</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 2 9 5</file>
+          <name>ILINK</name>
+          <file> 9 8 6 17 16 18 22 2 12 0</file>
         </tool>
       </inputs>
     </file>
@@ -75,22 +58,91 @@
       <name>$PROJ_DIR$\uart_driver.c</name>
       <outputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 23</file>
+          <name>ICCARM</name>
+          <file> 18</file>
         </tool>
         <tool>
-          <name>ICCARM</name>
-          <file> 17</file>
+          <name>BICOMP</name>
+          <file> 3</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 10 2 6 7</file>
+          <name>ICCARM</name>
+          <file> 23 11 19 29</file>
         </tool>
         <tool>
+          <name>BICOMP</name>
+          <file> 23 11 19 29</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\port.c</name>
+      <outputs>
+        <tool>
           <name>ICCARM</name>
-          <file> 10 2 6 7</file>
+          <file> 16</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 11 15 13</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 11 15 13</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 17</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 7</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 13 11 23 19 25 27 29 26</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13 11 23 19 25 27 29 26</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\i2c_driver.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 6</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 1</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 25 11 27 29</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 25 11 27 29</file>
         </tool>
       </inputs>
     </file>
@@ -98,192 +150,108 @@
       <name>$PROJ_DIR$\bluetooth.c</name>
       <outputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 20</file>
-        </tool>
-        <tool>
           <name>ICCARM</name>
-          <file> 27</file>
+          <file> 8</file>
         </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 8 10 2</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 8 10 2</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Debug\Exe\c.out</name>
-      <outputs>
-        <tool>
-          <name>OBJCOPY</name>
-          <file> 30</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ILINK</name>
-          <file> 13 27 26 28 31 17 22 24 29 14</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\i2c_driver.c</name>
-      <outputs>
         <tool>
           <name>BICOMP</name>
           <file> 21</file>
         </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 26</file>
-        </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 15 2 0 7</file>
+          <name>ICCARM</name>
+          <file> 26 23 11</file>
         </tool>
         <tool>
-          <name>ICCARM</name>
-          <file> 15 2 0 7</file>
+          <name>BICOMP</name>
+          <file> 26 23 11</file>
         </tool>
       </inputs>
     </file>
-    <file>
-      <name>$PROJ_DIR$\main.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 18</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 28</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 5 2 10 6 15 0 7 8</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 5 2 10 6 15 0 7 8</file>
-        </tool>
-      </inputs>
-    </file>
-  </configuration>
-  <configuration>
-    <name>Release</name>
-    <outputs>
-      <file>$PROJ_DIR$\i2c_registers.h</file>
-      <file>$PROJ_DIR$\port.c</file>
-      <file>$PROJ_DIR$\std_types.h</file>
-      <file>$PROJ_DIR$\uart_driver.c</file>
-      <file>$PROJ_DIR$\port.h</file>
-      <file>$PROJ_DIR$\uart_registers.h</file>
-      <file>$PROJ_DIR$\common_macros.h</file>
-      <file>$PROJ_DIR$\port_registers.h</file>
-      <file>$PROJ_DIR$\uart_driver.h</file>
-      <file>$PROJ_DIR$\Release\Obj\main.o</file>
-      <file>$PROJ_DIR$\i2c_driver.c</file>
-      <file>$TOOLKIT_DIR$\config\linker\ST\stm32f401xC.icf</file>
-      <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
-      <file>$PROJ_DIR$\i2c_driver.h</file>
-      <file>$PROJ_DIR$\main.c</file>
-      <file>$PROJ_DIR$\Release\Exe\c.out</file>
-      <file>$PROJ_DIR$\Release\Obj\uart_driver.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\port.o</file>
-      <file>$PROJ_DIR$\Release\Obj\main.pbi</file>
-      <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
-      <file>$PROJ_DIR$\Release\Obj\port.pbi</file>
-      <file>$PROJ_DIR$\Release\Exe\PORT_Driver.hex</file>
-      <file>$PROJ_DIR$\Release\Obj\uart_driver.o</file>
-      <file>$PROJ_DIR$\Release\Obj\i2c_driver.o</file>
-      <file>$TOOLKIT_DIR$\lib\m7M_tlv.a</file>
-      <file>$PROJ_DIR$\Release\Obj\i2c_driver.pbi</file>
-    </outputs>
     <file>
       <name>[ROOT_NODE]</name>
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 15</file>
+          <file> 5</file>
         </tool>
       </outputs>
     </file>
+  </configuration>
+  <configuration>
+    <name>Release</name>
+    <outputs>
+      <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
+      <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
+      <file>$PROJ_DIR$\Release\Obj\main.o</file>
+      <file>$TOOLKIT_DIR$\config\linker\ST\stm32f401xC.icf</file>
+      <file>$PROJ_DIR$\uart_driver.c</file>
+      <file>$PROJ_DIR$\std_types.h</file>
+      <file>$TOOLKIT_DIR$\lib\m7M_tlv.a</file>
+      <file>$PROJ_DIR$\port.h</file>
+      <file>$PROJ_DIR$\port_registers.h</file>
+      <file>$PROJ_DIR$\uart_registers.h</file>
+      <file>$PROJ_DIR$\uart_driver.h</file>
+      <file>$PROJ_DIR$\port.c</file>
+      <file>$PROJ_DIR$\i2c_driver.h</file>
+      <file>$PROJ_DIR$\i2c_registers.h</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\common_macros.h</file>
+      <file>$PROJ_DIR$\i2c_driver.c</file>
+      <file>$PROJ_DIR$\Release\Obj\uart_driver.pbi</file>
+      <file>$PROJ_DIR$\Release\Exe\c.out</file>
+      <file>$PROJ_DIR$\Release\Obj\i2c_driver.o</file>
+      <file>$PROJ_DIR$\Release\Obj\port.o</file>
+      <file>$PROJ_DIR$\Release\Exe\PORT_Driver.hex</file>
+      <file>$PROJ_DIR$\Release\Obj\i2c_driver.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\port.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\uart_driver.o</file>
+    </outputs>
     <file>
-      <name>$PROJ_DIR$\port.c</name>
+      <name>$PROJ_DIR$\uart_driver.c</name>
       <outputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 20</file>
+          <name>ICCARM</name>
+          <file> 25</file>
         </tool>
         <tool>
-          <name>ICCARM</name>
+          <name>BICOMP</name>
           <file> 17</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 2 7 4</file>
+          <name>ICCARM</name>
+          <file> 10 5 9 15</file>
         </tool>
         <tool>
-          <name>ICCARM</name>
-          <file> 2 7 4</file>
+          <name>BICOMP</name>
+          <file> 10 5 9 15</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\uart_driver.c</name>
+      <name>$PROJ_DIR$\port.c</name>
       <outputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 16</file>
+          <name>ICCARM</name>
+          <file> 20</file>
         </tool>
         <tool>
-          <name>ICCARM</name>
-          <file> 22</file>
+          <name>BICOMP</name>
+          <file> 24</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 8 2 5 6</file>
-        </tool>
-        <tool>
           <name>ICCARM</name>
-          <file> 8 2 5 6</file>
+          <file> 5 8 7</file>
         </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\i2c_driver.c</name>
-      <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 25</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 23</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 13 2 0 6</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 13 2 0 6</file>
+          <file> 5 8 7</file>
         </tool>
       </inputs>
     </file>
@@ -291,22 +259,45 @@
       <name>$PROJ_DIR$\main.c</name>
       <outputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 18</file>
+          <name>ICCARM</name>
+          <file> 2</file>
         </tool>
         <tool>
-          <name>ICCARM</name>
-          <file> 9</file>
+          <name>BICOMP</name>
+          <file> 23</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 4 2 8 5 13 0</file>
+          <name>ICCARM</name>
+          <file> 7 5 10 9 12 13</file>
         </tool>
         <tool>
+          <name>BICOMP</name>
+          <file> 7 5 10 9 12 13</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\i2c_driver.c</name>
+      <outputs>
+        <tool>
           <name>ICCARM</name>
-          <file> 4 2 8 5 13 0</file>
+          <file> 19</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 22</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 12 5 13 15</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 12 5 13 15</file>
         </tool>
       </inputs>
     </file>
@@ -321,9 +312,18 @@
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 11 23 9 17 22 19 24 12</file>
+          <file> 3 19 2 20 25 1 6 0</file>
         </tool>
       </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 18</file>
+        </tool>
+      </outputs>
     </file>
     <forcedrebuild>
       <name>[MULTI_TOOL]</name>
