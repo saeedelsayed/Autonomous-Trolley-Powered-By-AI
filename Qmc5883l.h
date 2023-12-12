@@ -19,8 +19,13 @@
 **/
 #define QMC5883l_I2cPort I2C1
 /*******************************************************************/
-
-
+#define QMC5883L_ADDRESS 0x0D
+#define QMC5883l_XMIN 100
+#define QMC5883l_XMAX 100
+#define QMC5883l_YMIN 100
+#define QMC5883l_YMAX 100
+#define QMC5883l_ZMIN 100
+#define QMC5883l_ZMAX 100
 
 typedef enum
 {
@@ -61,5 +66,6 @@ typedef struct
 
 void QMC5883l_Init(void);
 void QMC5833l_ReadReg(uint8 reg, uint8 *data);
-void QMC5883l_GetAngel(Qmc5883l_DataType *data)
+void QMC5883l_GetAngel(Qmc5883l_DataType *data);
+void QMC5883l_SetInOutModule(I2C_config_t *I2C_PTR);
 #endif

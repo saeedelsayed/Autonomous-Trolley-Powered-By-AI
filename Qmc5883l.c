@@ -13,35 +13,43 @@
 
 void static QMC5883l_WriteReg(QMC5883l_RegType reg, uint8 data);
 void static QMC5883l_ReadData(void);
+void static applyCalibration(Qmc5883l_DataType *data);
+void static setCalibrationScales(float32 x_scale, float32 y_scale, float32 z_scale);
+void static setCalibrationOffsets(float32 x_offset, float32 y_offset, float32 z_offset);
+void static setCalibration(sint16 x_min, sint16 x_max, sint16 y_min, sint16 y_max, sint16 z_min, sint16 z_max);
 
-#define QMC5883L_ADDRESS 0x0D
+float32 static Offset[3] = {0};
+float32 static Scale[3] = {1, 1, 1};
 
-I2C_config_t I2C_Ref = {QMC5883l_I2cPort, I2C_MODE_I2C};
-Qmc5883l_RawDataType * Data;
+
+
+static I2C_config_t *compassInOutModule = NULL_PTR;
+
+Qmc5883l_RawDataType *RawData;
+
 /**************************************************************************************************************************************
-* @fn: QMC5883l_Init
-* @brief: Initializes the QMC5883L magnetometer sensor.
-*
-* Description:
-*   This function initializes the QMC5883L magnetometer sensor by configuring its settings through the I2C interface.
-*   It first initializes the I2C module using the specified reference (I2C_Ref). Then, it writes specific values to the QMC5883L
-*   registers to set the reset bit and configure the sensor with the desired settings.
-*
-* Parameters:
-*   None
-*
-* Returns:
-*   None
-*
-*************************************************************************************************************************************/
-  void QMC5883l_Init(void)
-  {
-    
-      I2C_init(&I2C_Ref);
-      QMC5883l_WriteReg(QMC5833l_SET_RESET_REG, 0x01);    
-      QMC5883l_WriteReg(QMC5883l_CONFIG_REG_1, 0x1D);
-    
-  }
+ * @fn: QMC5883l_Init
+ * @brief: Initializes the QMC5883L magnetometer sensor.
+ *
+ * Description:
+ *   This function initializes the QMC5883L magnetometer sensor by configuring its settings through the I2C interface.
+ *   It first initializes the I2C module using the specified reference (compassInOutModule). Then, it writes specific values to the QMC5883L
+ *   registers to set the reset bit and configure the sensor with the desired settings.
+ *
+ * Parameters:
+ *   None
+ *
+ * Returns:
+ *   None
+ *
+ *************************************************************************************************************************************/
+void QMC5883l_Init(void)
+{
+
+  setCalibration(QMC5883l_XMIN, QMC5883l_XMAX, QMC5883l_YMIN, QMC5883l_YMAX, QMC5883l_ZMIN, QMC5883l_ZMAX);
+  QMC5883l_WriteReg(QMC5833l_SET_RESET_REG, 0x01);
+  QMC5883l_WriteReg(QMC5883l_CONFIG_REG_1, 0x1D);
+}
 
 /**************************************************************************************************************************************
  * @fn: QMC5883l_WriteReg
@@ -61,26 +69,26 @@ Qmc5883l_RawDataType * Data;
  *
  * ************************************************************************************************************************************/
 
-    void static QMC5883l_WriteReg(QMC5883l_RegType reg, uint8 data)
-    {
-      /* start condition */
-      I2C_Master_start(&I2C_Ref);
-      
-      /* Compass address with write operation */
-      I2C_writeAddress(&I2C_Ref, QMC5883L_ADDRESS << 1);
-      
-      /* clear address flag */
-      I2C_clearAddressFlag(&I2C_Ref);
-      
-      /* register address */
-      I2C_writeData(&I2C_Ref, reg);
-      
-      /* data written to the register */
-      I2C_writeData(&I2C_Ref, data);
-      
-      /* stop condition */
-      I2C_Master_stop(&I2C_Ref);
-    }
+void static QMC5883l_WriteReg(QMC5883l_RegType reg, uint8 data)
+{
+  /* start condition */
+  I2C_Master_start(compassInOutModule);
+
+  /* Compass address with write operation */
+  I2C_writeAddress(compassInOutModule, QMC5883L_ADDRESS << 1);
+
+  /* clear address flag */
+  I2C_clearAddressFlag(compassInOutModule);
+
+  /* register address */
+  I2C_writeData(compassInOutModule, reg);
+
+  /* data written to the register */
+  I2C_writeData(compassInOutModule, data);
+
+  /* stop condition */
+  I2C_Master_stop(compassInOutModule);
+}
 
 /**************************************************************************************************************************************
  * @fn: QMC5833l_ReadReg
@@ -102,38 +110,37 @@ Qmc5883l_RawDataType * Data;
  *
  * ************************************************************************************************************************************/
 
-    void QMC5833l_ReadReg(uint8 reg,uint8 *data)
-    {
-      /* start condition */
-      I2C_Master_start(&I2C_Ref);
-      
-      /* Compass address with write operation */
-      I2C_writeAddress(&I2C_Ref, QMC5883L_ADDRESS << 1);
-      
-      /* clear address flag */
-      I2C_clearAddressFlag(&I2C_Ref);
-      
-      /* location to be read from */
-      I2C_writeData(&I2C_Ref, reg);
-      
-      /* repeated start condition */
-      I2C_Master_start(&I2C_Ref);
-      
-      /* Compass address with read operation */
-      I2C_writeAddress(&I2C_Ref, (QMC5883L_ADDRESS << 1) | 1);
-      /* disable ack bit */
-      I2C_disableACK(&I2C_Ref);
-      
-      /* clear address flag */
-      I2C_clearAddressFlag(&I2C_Ref);
+void QMC5833l_ReadReg(uint8 reg, uint8 *data)
+{
+  /* start condition */
+  I2C_Master_start(compassInOutModule);
 
-      /* stop condition */
-      I2C_Master_stop(&I2C_Ref);
-      
-      /* read data */
-      I2C_readData(&I2C_Ref, data);
-      
-    }
+  /* Compass address with write operation */
+  I2C_writeAddress(compassInOutModule, QMC5883L_ADDRESS << 1);
+
+  /* clear address flag */
+  I2C_clearAddressFlag(compassInOutModule);
+
+  /* location to be read from */
+  I2C_writeData(compassInOutModule, reg);
+
+  /* repeated start condition */
+  I2C_Master_start(compassInOutModule);
+
+  /* Compass address with read operation */
+  I2C_writeAddress(compassInOutModule, (QMC5883L_ADDRESS << 1) | 1);
+  /* disable ack bit */
+  I2C_disableACK(compassInOutModule);
+
+  /* clear address flag */
+  I2C_clearAddressFlag(compassInOutModule);
+
+  /* stop condition */
+  I2C_Master_stop(compassInOutModule);
+
+  /* read data */
+  I2C_readData(compassInOutModule, data);
+}
 /**************************************************************************************************************************************
  * @fn: QMC5883l_ReadData
  * @brief: Reads magnetometer data from the QMC5883L sensor.
@@ -152,53 +159,54 @@ Qmc5883l_RawDataType * Data;
  *   None
  *
  * ************************************************************************************************************************************/
-    void static QMC5883l_ReadData(void)
-    {
-      uint8 status;
-    
-      QMC5833l_ReadReg(QMC5883l_STATUS_REG, &status);
-      while (GET_BIT(status, 0) == 0)
-        ;
-        /* enable ack bit */
-          I2C_enableACK(&I2C_Ref);
-          
-          /* start condition */
-          I2C_Master_start(&I2C_Ref);
-          
-          /* Compass address with write operation */
-          I2C_writeAddress(&I2C_Ref, 0x0D << 1);
-          
-          /* clear address flag */
-          I2C_clearAddressFlag(&I2C_Ref);
-          
-          /* location to be read from */
-          I2C_writeData(&I2C_Ref, 0x00);
-          
-          /* repeated start condition */
-          I2C_Master_start(&I2C_Ref);
-          
-          /* Compass address with read operation */
-          I2C_writeAddress(&I2C_Ref, (0x0D << 1) | 0x01);
-          
-          /* clear address flag */
-          I2C_clearAddressFlag(&I2C_Ref);
-          
-          /* read data from the data registers */
-          I2C_read(&I2C_Ref, &(Data->x_lsb));
-          I2C_read(&I2C_Ref, &(Data->x_msb));
-          I2C_read(&I2C_Ref, &(Data->y_lsb));
-          I2C_read(&I2C_Ref, &(Data->y_msb));
-          I2C_read(&I2C_Ref, &(Data->z_lsb));
-          
-          /* disable ack bit */
-          I2C_disableACK(&I2C_Ref);
-          
-          /* stop condition */
-          I2C_Master_stop(&I2C_Ref);
-    
-          /* read last data register */
-          I2C_read(&I2C_Ref, &(Data->z_msb)); 
-    }
+void static QMC5883l_ReadData(void)
+{
+  uint8 status = 0;
+
+  while (GET_BIT(status, 0) == 0)
+  {
+    QMC5833l_ReadReg(QMC5883l_STATUS_REG, &status);
+  }
+  /* enable ack bit */
+  I2C_enableACK(compassInOutModule);
+
+  /* start condition */
+  I2C_Master_start(compassInOutModule);
+
+  /* Compass address with write operation */
+  I2C_writeAddress(compassInOutModule, 0x0D << 1);
+
+  /* clear address flag */
+  I2C_clearAddressFlag(compassInOutModule);
+
+  /* location to be read from */
+  I2C_writeData(compassInOutModule, 0x00);
+
+  /* repeated start condition */
+  I2C_Master_start(compassInOutModule);
+
+  /* Compass address with read operation */
+  I2C_writeAddress(compassInOutModule, (0x0D << 1) | 0x01);
+
+  /* clear address flag */
+  I2C_clearAddressFlag(compassInOutModule);
+
+  /* read data from the data registers */
+  I2C_read(compassInOutModule, &(RawData->x_lsb));
+  I2C_read(compassInOutModule, &(RawData->x_msb));
+  I2C_read(compassInOutModule, &(RawData->y_lsb));
+  I2C_read(compassInOutModule, &(RawData->y_msb));
+  I2C_read(compassInOutModule, &(RawData->z_lsb));
+
+  /* disable ack bit */
+  I2C_disableACK(compassInOutModule);
+
+  /* stop condition */
+  I2C_Master_stop(compassInOutModule);
+
+  /* read last data register */
+  I2C_read(compassInOutModule, &(RawData->z_msb));
+}
 /**************************************************************************************************************************************
  * @fn: QMC5883l_GetAngel
  * @brief: Calculates the heading angle from the magnetometer data.
@@ -216,18 +224,51 @@ Qmc5883l_RawDataType * Data;
  *
  * ************************************************************************************************************************************/
 
-  void QMC5883l_GetAngel(Qmc5883l_DataType *data)
+void QMC5883l_GetAngel(Qmc5883l_DataType *data)
+{
+  QMC5883l_ReadData();
+  data->x = (Data->x_msb << 8) | Data->x_lsb;
+  data->y = (Data->y_msb << 8) | Data->y_lsb;
+  data->z = (Data->z_msb << 8) | Data->z_lsb;
+  applyCalibration(data);
+  data->heading = atan2(data->y, data->x) * (180 / 3.14159265);
+  if (data->heading < 0)
   {
-    QMC5883l_ReadData();
-    data->x = (Data->x_msb << 8) | Data->x_lsb;
-    data->y = (Data->y_msb << 8) | Data->y_lsb;
-    data->z = (Data->z_msb << 8) | Data->z_lsb;
-    data->heading = atan2(data->y, data->x)*(180/3.14159265);
-    if (data->heading < 0) {
-      data->heading += 360;
-    }
-    
+    data->heading += 360;
   }
+}
+void static setCalibration(sint16 x_min, sint16 x_max, sint16 y_min, sint16 y_max, sint16 z_min, sint16 z_max)
+{
+  setCalibrationOffsets(((x_min + x_max) / 2.0), ((y_min + y_max) / 2.0), ((z_min + z_max) / 2.0));
 
+  float32 x_avg_delta = (x_max - x_min) / 2;
+  float32 y_avg_delta = (y_max - y_min) / 2;
+  float32 z_avg_delta = (z_max - z_min) / 2;
 
+  float32 avg_delta = (x_avg_delta + y_avg_delta + z_avg_delta) / 3;
 
+  setCalibrationScales(avg_delta / x_avg_delta, avg_delta / y_avg_delta, avg_delta / z_avg_delta);
+}
+void static setCalibrationOffsets(float32 x_offset, float32 y_offset, float32 z_offset)
+{
+  Offset[0] = x_offset;
+  Offset[1] = y_offset;
+  Offset[2] = z_offset;
+}
+void static setCalibrationScales(float32 x_scale, float32 y_scale, float32 z_scale)
+{
+  Scale[0] = x_scale;
+  Scale[1] = y_scale;
+  Scale[2] = z_scale;
+}
+void static applyCalibration(Qmc5883l_DataType *data)
+{
+  data->x = (data->x - Offset[0]) * Scale[0];
+  data->y = (data->y - Offset[1]) * Scale[1];
+  data->z = (data->z - Offset[2]) * Scale[2];
+}
+
+void QMC5883l_SetInOutModule(I2C_config_t *I2C_PTR)
+{
+  compassInOutModule = I2C_PTR;
+}
