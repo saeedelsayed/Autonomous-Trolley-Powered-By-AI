@@ -52,7 +52,7 @@ void Bluetooth_Init(uint32 uart_type) {
    // }
 //}
 
-void Bluetooth_ReceiveString(char* receivedString) {
+void Bluetooth_ReceiveString(uint8* receivedString) {
     // Copy the received string to the provided buffer
   //  strncpy(receivedString, bluetoothBuffer, maxSize);
     UART_receiveString(&usartConfig, receivedString);

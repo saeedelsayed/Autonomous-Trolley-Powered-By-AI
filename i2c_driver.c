@@ -160,7 +160,8 @@ standard_return_t I2C_clearAddressFlag(const I2C_config_t *i2c)
 {
   volatile uint32 dummyVariable = (*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET));
   dummyVariable = (*(uint32 *)(i2c->type + I2Cx_SR2_OFFSET));
-}    
+} 
+
 /**
 * @brief This function is responsible for writing data on the bus
 *
@@ -220,13 +221,12 @@ standard_return_t I2C_Master_transmitByte(const I2C_config_t *i2c, uint8 address
     (*(uint32 *)(i2c->type + I2Cx_DR_OFFSET)) = address;
     while(BIT_IS_CLEAR((*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET)),I2C_SR1_ADDR));
     
-    (*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET));
-    (*(uint32 *)(i2c->type + I2Cx_SR2_OFFSET));
+    volatile uint32 dummyVariable = (*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET));
+    dummyVariable = (*(uint32 *)(i2c->type + I2Cx_SR2_OFFSET));
     
     (*(uint32 *)(i2c->type + I2Cx_DR_OFFSET)) = data;
     while(BIT_IS_CLEAR((*(uint32 *)( i2c->type  + I2Cx_SR1_OFFSET)), I2C_SR1_BTF));
     I2C_Master_stop(i2c);
-    
   }
   
   return ret_val;
@@ -235,23 +235,23 @@ standard_return_t I2C_Master_transmitByte(const I2C_config_t *i2c, uint8 address
 standard_return_t I2C_Master_transmitString(const I2C_config_t *i2c, uint8 address, uint8 * str)
 {
   uint8 i = 0;
+  
   (*(uint32 *)(i2c->type + I2Cx_CR1_OFFSET)) |= (1 << I2C_CR1_START);
   while(BIT_IS_CLEAR((*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET)),I2C_SR1_SB));
   
   (*(uint32 *)(i2c->type + I2Cx_DR_OFFSET)) = address;
   while(BIT_IS_CLEAR((*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET)),I2C_SR1_ADDR));
   
-  (*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET));
-  (*(uint32 *)(i2c->type + I2Cx_SR2_OFFSET));
+  volatile uint32 dummyVariable = (*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET));
+  dummyVariable = (*(uint32 *)(i2c->type + I2Cx_SR2_OFFSET));
   
   while(str[i] != '\0')
-  {
-    
+  {   
     (*(uint32 *)(i2c->type + I2Cx_DR_OFFSET)) = str[i];
     while(BIT_IS_CLEAR((*(uint32 *)( i2c->type  + I2Cx_SR1_OFFSET)), I2C_SR1_BTF));
-    i++;
-    
+    i++;   
   }
+  
   I2C_Master_stop(i2c);
 }
 

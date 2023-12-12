@@ -18,6 +18,6 @@
 #define BLUETOOTH_BUFFER_SIZE 64
 
 void Bluetooth_Init(uint32 uart_type);
-void Bluetooth_ReceiveString(char* receivedString);
+void Bluetooth_ReceiveString(uint8* receivedString);
 
 #endif /* BLUETOOTH_DRIVER_H */
