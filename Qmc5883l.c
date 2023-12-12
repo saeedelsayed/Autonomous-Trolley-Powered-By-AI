@@ -243,6 +243,30 @@ void QMC5883l_GetAngel(Qmc5883l_DataType *data)
   {
     data->heading += 360;
   }
+  if((data->heading>337.5 )&&(data->heading<=22.5 )){
+     data->direction = QMC5883l_N;
+  }
+  else if((data->heading>22.5 )&&(data->heading<=67.5 )){
+    data->direction = QMC5883l_NE;
+  }
+  else if((data->heading>67.5 )&&(data->heading<=112.5 )){
+    data->direction = QMC5883l_E;
+  }
+  else if((data->heading>112.5 )&&(data->heading<=157.5 )){
+    data->direction = QMC5883l_ES;
+  }
+  else if((data->heading>157.5 )&&(data->heading<=202.5 )){
+    data->direction = QMC5883l_S;
+  }
+  else if((data->heading>202.5 )&&(data->heading<=247.5 )){
+    data->direction = QMC5883l_SW;
+  }
+  else if((data->heading>247.5 )&&(data->heading<=292.5 )){
+    data->direction = QMC5883l_W;
+  }
+  else {
+    data->direction = QMC5883l_WN;
+  }
 }
 
 void static setCalibration(sint16 x_min, sint16 x_max, sint16 y_min, sint16 y_max, sint16 z_min, sint16 z_max)

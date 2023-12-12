@@ -10,13 +10,27 @@
 
 /*******************************************************************/
 #define QMC5883L_ADDRESS 0x0D
+#define QMC5883l_XMIN -776
+#define QMC5883l_XMAX 1228
+#define QMC5883l_YMIN -348
+#define QMC5883l_YMAX 1716
+#define QMC5883l_ZMIN -420
+#define QMC5883l_ZMAX 1461
 
-#define QMC5883l_XMIN -4080
-#define QMC5883l_XMAX -2038
-#define QMC5883l_YMIN 56
-#define QMC5883l_YMAX 2328
-#define QMC5883l_ZMIN 1686
-#define QMC5883l_ZMAX 4061
+
+
+
+typedef enum{
+  QMC5883l_N,
+  QMC5883l_NE,
+  QMC5883l_E,
+  QMC5883l_ES,
+  QMC5883l_S,
+  QMC5883l_SW,
+  QMC5883l_W,
+  QMC5883l_WN,
+
+}QMC5883l_DirectionType;
 
 typedef enum
 {
@@ -50,6 +64,7 @@ typedef struct
     sint16 y;
     sint16 z;
     float32 heading;
+    uint8 direction;
 }Qmc5883l_DataType;
 
 
