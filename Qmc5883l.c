@@ -243,8 +243,9 @@ void QMC5883l_GetAngel(Qmc5883l_DataType *data)
   {
     data->heading += 360;
   }
-  if((data->heading>337.5 )&&(data->heading<=22.5 )){
-     data->direction = QMC5883l_N;
+  if((data->heading>292.5 )&&(data->heading<=337.5 )){
+    data->direction = QMC5883l_WN;
+     
   }
   else if((data->heading>22.5 )&&(data->heading<=67.5 )){
     data->direction = QMC5883l_NE;
@@ -265,7 +266,7 @@ void QMC5883l_GetAngel(Qmc5883l_DataType *data)
     data->direction = QMC5883l_W;
   }
   else {
-    data->direction = QMC5883l_WN;
+    data->direction = QMC5883l_N;
   }
 }
 
