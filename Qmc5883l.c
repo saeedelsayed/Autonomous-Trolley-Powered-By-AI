@@ -45,12 +45,15 @@ Qmc5883l_RawDataType *RawData;
  *************************************************************************************************************************************/
 void QMC5883l_Init(void)
 {
-
-  setCalibration(QMC5883l_XMIN, QMC5883l_XMAX, QMC5883l_YMIN, QMC5883l_YMAX, QMC5883l_ZMIN, QMC5883l_ZMAX);
   QMC5883l_WriteReg(QMC5833l_SET_RESET_REG, 0x01);
   QMC5883l_WriteReg(QMC5883l_CONFIG_REG_1, 0x1D);
+  setCalibration(QMC5883l_XMIN, QMC5883l_XMAX, QMC5883l_YMIN, QMC5883l_YMAX, QMC5883l_ZMIN, QMC5883l_ZMAX);
 }
 
+void QMC5883l_SetInOutModule(I2C_config_t *I2C_PTR)
+{
+  compassInOutModule = I2C_PTR;
+}
 /**************************************************************************************************************************************
  * @fn: QMC5883l_WriteReg
  * @brief: Writes a value to the specified register of the QMC5883L magnetometer sensor.
@@ -268,7 +271,3 @@ void static applyCalibration(Qmc5883l_DataType *data)
   data->z = (data->z - Offset[2]) * Scale[2];
 }
 
-void QMC5883l_SetInOutModule(I2C_config_t *I2C_PTR)
-{
-  compassInOutModule = I2C_PTR;
-}
