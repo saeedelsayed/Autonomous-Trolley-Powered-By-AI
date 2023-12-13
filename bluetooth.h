@@ -19,5 +19,7 @@
 
 void Bluetooth_Init(uint32 uart_type);
 void Bluetooth_ReceiveString(uint8* receivedString);
+void Bluetooth_sendString(uint8* sendString);
 
-#endif /* BLUETOOTH_DRIVER_H */
+
+#endif /* BLUETOOTH_DRIVER_Hï¿½*/

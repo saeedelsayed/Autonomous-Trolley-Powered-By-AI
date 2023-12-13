@@ -57,5 +57,10 @@ void Bluetooth_ReceiveString(uint8* receivedString) {
   //  strncpy(receivedString, bluetoothBuffer, maxSize);
     UART_receiveString(&usartConfig, receivedString);
     // Null-terminate the copied string
-   // receivedString[maxSize - 1] = '\0';
+   // receivedString[maxSizeï¿½-ï¿½1]ï¿½=ï¿½'\0';
+}
+
+void Bluetooth_sendString(uint8* sendString)
+{
+  UART_sendString(&usartConfig, sendString);
 }
