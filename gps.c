@@ -41,7 +41,7 @@ static void GPS_decodeGllMessage(void);
 * return value : NONE.
 */
 void GPS_init(void){
-  /* configure the GPS to send GLL message only */
+  /* configure the GPS not to send messages at first*/
   
   /* disable VTG message */
   GPS_sendCommand(DISABLE_VTG_MESSAGE);
@@ -57,6 +57,9 @@ void GPS_init(void){
   
   /* disable GSV message */
   GPS_sendCommand(DISABLE_GSV_MESSAGE);
+  
+  /* disable GLL message */
+  GPS_sendCommand(DISABLE_GLL_MESSAGE);
 }
 
 /*
@@ -67,6 +70,7 @@ void GPS_init(void){
 * return value : NONE.
 */
 void GPS_sendCommand(uint8* command){
+  
   /* send the command through the I/O module to the GPS */
   UART_sendString(gpsInputOutputModule, command);
 }
@@ -92,8 +96,15 @@ of the latitude and the longitude.
 * return value : NONE.
 */
 void GPS_updateLatitudeAndLongitude(void){
+  
+  /* enable GLL message */
+  GPS_sendCommand(ENABLE_GLL_MESSAGE);
+  
   /* get new GLL message from the GPS */
   UART_receiveString(gpsInputOutputModule, gpsGllMessage);
+  
+  /* disable GLL message */
+  GPS_sendCommand(DISABLE_GLL_MESSAGE);
   
   /* decode the message to get the value of the latitude and the longitude */
   GPS_decodeGllMessage();
@@ -115,7 +126,7 @@ static void GPS_decodeGllMessage(void){
   
   /* extract the latitude and the longitude from the message */
   latitude = atof((char const *)(gpsGllMessage + 7));
-  longitude = atof((char const *)(gpsGllMessage + 19));
+  longitude = atof((char const *)(gpsGllMessage + 20));
   
   /* convert the degrees and minutes to decimal */
   float64 temp = ((uint32) (latitude / 100.0));
@@ -125,11 +136,11 @@ static void GPS_decodeGllMessage(void){
   longitude = temp + ((longitude - (temp * 100)) / 60.0);
   
   /* set the negative sign in case of south and west */
-  if(gpsGllMessage[17] == 'S'){
+  if(gpsGllMessage[18] == 'S'){
     latitude = -1 * latitude;
   }
   
-  if(gpsGllMessage[30] == 'W'){
+  if(gpsGllMessage[32] == 'W'){
     longitude = -1 * longitude;
   }
 }

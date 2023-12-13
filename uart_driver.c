@@ -49,7 +49,7 @@ void UART_init(USART_STRUCT * usart)
 	/* first clear all bits of the BRR register */
 	(*(uint32 *)(usart->type + USART_BRR_ADDRESS_OFFSET)) = CLEAR_ALL_BITS;
 	/* calculate the value of USARTDIV and store it in float */
-	float32 USARTDIV = (float32)F_CPU/(8*2*usart->baud_rate);
+	float32 USARTDIV = (float32)F_CPU / (8 * 2 * usart->baud_rate);
 	/* take the integer value to store it in the mantissa bits */
 	uint16 USART_BRR_DIV_MANTISSA = (uint16)USARTDIV;
 	/* convert the fraction part to an integer to store it in the fraction bits */
@@ -58,6 +58,7 @@ void UART_init(USART_STRUCT * usart)
 	(*(uint32 *)(usart->type + USART_BRR_ADDRESS_OFFSET)) |= (USART_BRR_DIV_MANTISSA << DIV_MANTISSA);
 	/* set fraction */
 	(*(uint32 *)(usart->type + USART_BRR_ADDRESS_OFFSET)) |= (USART_BRR_DIV_FRACTION << DIV_FRACTION);
+        
         /* enable transmitter */
 	(*(uint32 *)(usart->type + USART_CR1_ADDRESS_OFFSET)) |= (1 << TE);
 	/* enable receiver */
@@ -76,7 +77,9 @@ void UART_sendByte(USART_STRUCT * usart, uint8 data)
 {
         /* wait until the content of the TDR register is been transferred into 
            the shift register */
-	while(BIT_IS_CLEAR((*(uint32 *)(usart->type + USART_SR_ADDRESS_OFFSET)),TXE) );
+  
+	while(BIT_IS_CLEAR((*(uint32 *)(usart->type + USART_SR_ADDRESS_OFFSET)), TXE));
+        
 	/* write the data to the data register */ 
         (*(uint32 *)(usart->type + USART_DR_ADDRESS_OFFSET)) = data;
 }
@@ -92,7 +95,8 @@ void UART_sendByte(USART_STRUCT * usart, uint8 data)
 uint8 UART_receiveByte(USART_STRUCT * usart)
 {
         /* wait until the data register receive the data */
-	while(BIT_IS_CLEAR((*(uint32 *)(usart->type + USART_SR_ADDRESS_OFFSET)),RXNE) );
+	while(BIT_IS_CLEAR((*(uint32 *)(usart->type + USART_SR_ADDRESS_OFFSET)), RXNE));
+        
 	/* read the data */ 
         return (*((volatile uint32 *)(usart->type + USART_DR_ADDRESS_OFFSET)));
 }
@@ -111,6 +115,7 @@ void UART_sendString(USART_STRUCT * usart, uint8* Str)
       /* a variable to check every index in the string to know if we reached the 
          end of the string('\0') or not yet */
 	uint8 i = 0;
+        
         /* as long as we did not reach the end of the string continue to send the bytes*/
 	while(Str[i] != '\0')
 	{
@@ -139,4 +144,7 @@ void UART_receiveString(USART_STRUCT * usart, uint8 * Str)
 		i++;
 		Str[i] = UART_receiveByte(usart);
 	}
+        
+        UART_receiveByte(usart);
+        Str[i] = '\0';
 }
