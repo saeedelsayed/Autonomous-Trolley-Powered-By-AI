@@ -13,10 +13,10 @@ int main()
   *((uint32*)0x40023830) |= (1 << 0);
   
   /* configuration of pin 9 and pin 10 of PORT A */
-  ConfigurationPin pin9PortA = {PORTA_ID, PIN9_ID, ALTERNATE_MODE, OUTPUT_PUSH_PULL, NO_PULL_UP_DOWN, LOGIC_HIGH, AF7};
-  ConfigurationPin pin10PortA = {PORTA_ID, PIN10_ID, ALTERNATE_MODE, OUTPUT_PUSH_PULL, NO_PULL_UP_DOWN, LOGIC_HIGH, AF7};
-  PORT_configurePin(&pin9PortA);
-  PORT_configurePin(&pin10PortA);
+  ConfigurationPin usart1TX = {PORTA_ID, PIN9_ID, ALTERNATE_MODE, OUTPUT_PUSH_PULL, NO_PULL_UP_DOWN, LOGIC_HIGH, AF7};
+  ConfigurationPin usart1RX = {PORTA_ID, PIN10_ID, ALTERNATE_MODE, OUTPUT_PUSH_PULL, NO_PULL_UP_DOWN, LOGIC_HIGH, AF7};
+  PORT_configurePin(&usart1TX);
+  PORT_configurePin(&usart1RX);
   
   /* configuration of UART */
   USART_STRUCT usart1 = {USART1, UART_ENABLE, UART_8_BIT_WORD, UART_1_STOP_BIT, 9600};

@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=454163506
+Checksum=-2119402115
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -87,7 +87,8 @@ mode=0
 [Breakpoints2]
 Bp0=_ 1 "EMUL_CODE" "{$PROJ_DIR$\main.c}.33.5" 0 0 1 "" 0 "" 0
 Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\main.c}.34.5" 0 0 1 "" 0 "" 0
-Count=2
+Bp2=_ 1 "EMUL_CODE" "{$PROJ_DIR$\main.c}.28.3" 0 0 1 "" 0 "" 0
+Count=3
 [Aliases]
 Count=0
 SuppressDialog=0
