@@ -17,9 +17,11 @@ void static applyCalibration(Qmc5883l_DataType *data);
 void static setCalibrationScales(float32 x_scale, float32 y_scale, float32 z_scale);
 void static setCalibrationOffsets(float32 x_offset, float32 y_offset, float32 z_offset);
 void static setCalibration(sint16 x_min, sint16 x_max, sint16 y_min, sint16 y_max, sint16 z_min, sint16 z_max);
+void static setMagneticDeclination(uint8 degrees, uint8 minutes);
 
 float32 static Offset[3] = {0};
 float32 static Scale[3] = {1, 1, 1};
+float32 static magneticDeclinationDegrees ;
 
 
 
@@ -48,6 +50,8 @@ void QMC5883l_Init(void)
   QMC5883l_WriteReg(QMC5833l_SET_RESET_REG, 0x01);
   QMC5883l_WriteReg(QMC5883l_CONFIG_REG_1, 0x1D);
   setCalibration(QMC5883l_XMIN, QMC5883l_XMAX, QMC5883l_YMIN, QMC5883l_YMAX, QMC5883l_ZMIN, QMC5883l_ZMAX);
+  setMagneticDeclination(4,45);
+  
 }
 
 void QMC5883l_SetInOutModule(I2C_config_t *I2C_PTR)
@@ -238,6 +242,7 @@ void QMC5883l_GetAngel(Qmc5883l_DataType *data)
   applyCalibration(data);
   
   data->heading = atan2(data->y, data->x) * (180 / 3.14159265);
+  data->heading +=magneticDeclinationDegrees;
   
   if (data->heading < 0)
   {
@@ -274,11 +279,11 @@ void static setCalibration(sint16 x_min, sint16 x_max, sint16 y_min, sint16 y_ma
 {
   setCalibrationOffsets(((x_min + x_max) / 2.0), ((y_min + y_max) / 2.0), ((z_min + z_max) / 2.0));
   
-  float32 x_avg_delta = (x_max - x_min) / 2;
-  float32 y_avg_delta = (y_max - y_min) / 2;
-  float32 z_avg_delta = (z_max - z_min) / 2;
+  float32 x_avg_delta = (x_max - x_min) / 2.0;
+  float32 y_avg_delta = (y_max - y_min) / 2.0;
+  float32 z_avg_delta = (z_max - z_min) / 2.0;
   
-  float32 avg_delta = (x_avg_delta + y_avg_delta + z_avg_delta) / 3;
+  float32 avg_delta = (x_avg_delta + y_avg_delta + z_avg_delta) / 3.0;
   
   setCalibrationScales(avg_delta / x_avg_delta, avg_delta / y_avg_delta, avg_delta / z_avg_delta);
 }
@@ -304,3 +309,6 @@ void static applyCalibration(Qmc5883l_DataType *data)
   data->z = (sint16)((data->z - Offset[2]) * Scale[2]);
 }
 
+void static setMagneticDeclination(uint8 degrees, uint8 minutes) {
+	magneticDeclinationDegrees = degrees + minutes / 60.0;
+}

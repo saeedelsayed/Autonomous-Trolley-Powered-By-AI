@@ -9,13 +9,14 @@
 #define QMC5883L_H_
 
 /*******************************************************************/
+
 #define QMC5883L_ADDRESS 0x0D
-#define QMC5883l_XMIN -776
-#define QMC5883l_XMAX 1228
-#define QMC5883l_YMIN -348
-#define QMC5883l_YMAX 1716
-#define QMC5883l_ZMIN -420
-#define QMC5883l_ZMAX 1461
+#define QMC5883l_XMIN -1308
+#define QMC5883l_XMAX 1658
+#define QMC5883l_YMIN -1566
+#define QMC5883l_YMAX 1320
+#define QMC5883l_ZMIN -1123
+#define QMC5883l_ZMAX 1455
 
 
 
