@@ -1886,6 +1886,15 @@
     <name>$PROJ_DIR$\common_macros.h</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\gps.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\gps.h</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\gps_commands.h</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\i2c_driver.c</name>
   </file>
   <file>
