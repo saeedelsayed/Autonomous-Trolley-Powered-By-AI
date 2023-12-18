@@ -1922,6 +1922,12 @@
     <name>$PROJ_DIR$\Qmc5883l.h</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\services.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\services.h</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\std_types.h</name>
   </file>
   <file>

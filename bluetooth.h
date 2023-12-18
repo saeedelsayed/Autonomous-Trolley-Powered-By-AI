@@ -15,11 +15,9 @@
 
 #include "uart_driver.h"
 
-#define BLUETOOTH_BUFFER_SIZE 64
-
-void Bluetooth_Init(uint32 uart_type);
-void Bluetooth_ReceiveString(uint8* receivedString);
-void Bluetooth_sendString(uint8* sendString);
+void Bluetooth_setInputOutputModule(USART_STRUCT* uart);
+void Bluetooth_receiveString(uint8* str);
+void Bluetooth_sendString(uint8* str);
 
 
 #endif /* BLUETOOTH_DRIVER_H�*/
