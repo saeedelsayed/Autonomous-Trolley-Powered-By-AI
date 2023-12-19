@@ -19,6 +19,7 @@
 
 #define F_CPU 16000000
 
+#define RCC_APB1ENR   (*(unsigned long*) (0x40023800+0x40))
 #define RCC_APB2ENR   (*(unsigned long*) (0x40023800+0x44))
    
 /*******************************************************************************************/
@@ -36,6 +37,7 @@
 void UART_init(USART_STRUCT * usart)
 {
         /* enable the clock for uart1 (warning!!!! it is static) */
+        RCC_APB1ENR |= (1 << 17);
 	RCC_APB2ENR |= (1 << 4);
 	/* first clear all bits of the CR1 register */
 	(*(uint32 *)(usart->type + USART_CR1_ADDRESS_OFFSET)) = CLEAR_ALL_BITS;

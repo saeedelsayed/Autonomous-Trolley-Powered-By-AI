@@ -8,17 +8,14 @@
 #ifndef QMC5883L_H_ 
 #define QMC5883L_H_
 
-/*******************************************************************/
-
 #define QMC5883L_ADDRESS 0x0D
+
 #define QMC5883l_XMIN -1308
 #define QMC5883l_XMAX 1658
 #define QMC5883l_YMIN -1566
 #define QMC5883l_YMAX 1320
 #define QMC5883l_ZMIN -1123
 #define QMC5883l_ZMAX 1455
-
-
 
 
 typedef enum{
@@ -30,7 +27,6 @@ typedef enum{
   QMC5883l_SW,
   QMC5883l_W,
   QMC5883l_WN,
-
 }QMC5883l_DirectionType;
 
 typedef enum
@@ -47,7 +43,7 @@ typedef enum
     QMC5883l_CONFIG_REG_1,
     QMC5883l_CONFIG_REG_2,
     QMC5833l_SET_RESET_REG
-} QMC5883l_RegType;
+}QMC5883l_RegType;
 
 typedef struct 
 {
@@ -68,11 +64,10 @@ typedef struct
     uint8 direction;
 }Qmc5883l_DataType;
 
-
-
+extern Qmc5883l_DataType compassData;
 
 void QMC5883l_Init(void);
 void QMC5833l_ReadReg(uint8 reg, uint8 *data);
-void QMC5883l_GetAngel(Qmc5883l_DataType *data);
+void QMC5883l_GetAngel(void);
 void QMC5883l_SetInOutModule(I2C_config_t *I2C_PTR);
 #endif

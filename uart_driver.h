@@ -48,7 +48,6 @@ typedef struct {
 	uint8 word_length; /* holds the number of bits of the UART word*/
 	uint8 stop_bits;  /* holds the number of stop bits of the UART word*/
 	uint32 baud_rate; /* holds the baud rate of the UART */
-
 }USART_STRUCT;
 
 /*******************************************************************************************/

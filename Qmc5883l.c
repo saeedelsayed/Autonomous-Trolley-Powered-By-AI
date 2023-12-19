@@ -13,7 +13,7 @@
 
 void static QMC5883l_WriteReg(QMC5883l_RegType reg, uint8 data);
 void static QMC5883l_ReadData(void);
-void static applyCalibration(Qmc5883l_DataType *data);
+void static applyCalibration(void);
 void static setCalibrationScales(float32 x_scale, float32 y_scale, float32 z_scale);
 void static setCalibrationOffsets(float32 x_offset, float32 y_offset, float32 z_offset);
 void static setCalibration(sint16 x_min, sint16 x_max, sint16 y_min, sint16 y_max, sint16 z_min, sint16 z_max);
@@ -23,11 +23,10 @@ float32 static Offset[3] = {0};
 float32 static Scale[3] = {1, 1, 1};
 float32 static magneticDeclinationDegrees ;
 
-
-
 static I2C_config_t *compassInOutModule = NULL_PTR;
 
 Qmc5883l_RawDataType RawData = {0, 0, 0, 0, 0, 0};
+Qmc5883l_DataType compassData = {0, 0, 0, 0, 0};
 
 /**************************************************************************************************************************************
 * @fn: QMC5883l_Init
@@ -232,46 +231,47 @@ void static QMC5883l_ReadData(void)
 *   None
 *
 * ************************************************************************************************************************************/
-void QMC5883l_GetAngel(Qmc5883l_DataType *data)
+void QMC5883l_GetAngel(void)
 {
   QMC5883l_ReadData();
-  data->x = (RawData.x_msb << 8) | RawData.x_lsb;
-  data->y = (RawData.y_msb << 8) | RawData.y_lsb;
-  data->z = (RawData.z_msb << 8) | RawData.z_lsb;
   
-  applyCalibration(data);
+  compassData.x = (RawData.x_msb << 8) | RawData.x_lsb;
+  compassData.y = (RawData.y_msb << 8) | RawData.y_lsb;
+  compassData.z = (RawData.z_msb << 8) | RawData.z_lsb;
   
-  data->heading = atan2(data->y, data->x) * (180 / 3.14159265);
-  data->heading +=magneticDeclinationDegrees;
+  applyCalibration();
   
-  if (data->heading < 0)
+  compassData.heading = atan2(compassData.y, compassData.x) * (180 / 3.14159265);
+  compassData.heading += magneticDeclinationDegrees;
+  
+  if (compassData.heading < 0)
   {
-    data->heading += 360;
+    compassData.heading += 360;
   }
-  if((data->heading>292.5 )&&(data->heading<=337.5 )){
-    data->direction = QMC5883l_WN;
-     
+  
+  if((compassData.heading > 292.5) && (compassData.heading <= 337.5)){
+    compassData.direction = QMC5883l_WN;
   }
-  else if((data->heading>22.5 )&&(data->heading<=67.5 )){
-    data->direction = QMC5883l_NE;
+  else if((compassData.heading > 22.5) && (compassData.heading <= 67.5)){
+    compassData.direction = QMC5883l_NE;
   }
-  else if((data->heading>67.5 )&&(data->heading<=112.5 )){
-    data->direction = QMC5883l_E;
+  else if((compassData.heading > 67.5) && (compassData.heading <= 112.5)){
+    compassData.direction = QMC5883l_E;
   }
-  else if((data->heading>112.5 )&&(data->heading<=157.5 )){
-    data->direction = QMC5883l_ES;
+  else if((compassData.heading > 112.5) && (compassData.heading <= 157.5)){
+    compassData.direction = QMC5883l_ES;
   }
-  else if((data->heading>157.5 )&&(data->heading<=202.5 )){
-    data->direction = QMC5883l_S;
+  else if((compassData.heading > 157.5) && (compassData.heading <= 202.5)){
+    compassData.direction = QMC5883l_S;
   }
-  else if((data->heading>202.5 )&&(data->heading<=247.5 )){
-    data->direction = QMC5883l_SW;
+  else if((compassData.heading > 202.5) && (compassData.heading <= 247.5)){
+    compassData.direction = QMC5883l_SW;
   }
-  else if((data->heading>247.5 )&&(data->heading<=292.5 )){
-    data->direction = QMC5883l_W;
+  else if((compassData.heading > 247.5) && (compassData.heading <= 292.5)){
+    compassData.direction = QMC5883l_W;
   }
   else {
-    data->direction = QMC5883l_N;
+    compassData.direction = QMC5883l_N;
   }
 }
 
@@ -302,11 +302,11 @@ void static setCalibrationScales(float32 x_scale, float32 y_scale, float32 z_sca
   Scale[2] = z_scale;
 }
 
-void static applyCalibration(Qmc5883l_DataType *data)
+void static applyCalibration(void)
 {
-  data->x = (sint16)((data->x - Offset[0]) * Scale[0]);
-  data->y = (sint16)((data->y - Offset[1]) * Scale[1]);
-  data->z = (sint16)((data->z - Offset[2]) * Scale[2]);
+  compassData.x = (sint16)((compassData.x - Offset[0]) * Scale[0]);
+  compassData.y = (sint16)((compassData.y - Offset[1]) * Scale[1]);
+  compassData.z = (sint16)((compassData.z - Offset[2]) * Scale[2]);
 }
 
 void static setMagneticDeclination(uint8 degrees, uint8 minutes) {
