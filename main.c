@@ -1,6 +1,7 @@
 #include "services.h"
 
 float32 distanceBetweenUserAndTrolley = 0.0;
+sint8 angleBetweenUserAndTrolley = 0;
 
 int main()
 {
@@ -21,6 +22,7 @@ int main()
     SERVICES_updateTrolleyData();
     SERVICES_updateUserData();
     distanceBetweenUserAndTrolley = SERVICES_getDistance();
+    angleBetweenUserAndTrolley = SERVICES_getDifferenceInAngle();
   }
   
   return 0;

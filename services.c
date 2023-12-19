@@ -189,6 +189,20 @@ float32 SERVICES_getDistance(void){
 
 
 /*
+ * description : the function is responsible for getting the difference in angle
+ *               between the user and the trolley.
+ *
+ * parameters  : NONE.
+ *
+ * return value : the difference in angle.
+*/
+sint8 SERVICES_getDifferenceInAngle(void){
+  sint8 differenceInAngle = compassData.direction - userDirection;
+  return differenceInAngle;
+}
+
+
+/*
 * description : the function is responsible for converting degree to radian.
 *
 * parameters  : degree.

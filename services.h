@@ -100,4 +100,14 @@ void SERVICES_updateTrolleyData(void);
 */
 float32 SERVICES_getDistance(void);
 
+/*
+ * description : the function is responsible for getting the difference in angle
+ *               between the user and the trolley.
+ *
+ * parameters  : NONE.
+ *
+ * return value : the difference in angle.
+*/
+sint8 SERVICES_getDifferenceInAngle(void);
+
 #endif

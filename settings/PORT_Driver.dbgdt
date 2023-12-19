@@ -41,7 +41,7 @@
         <DisasmHistory/>
       <ShowCodeCoverage>1</ShowCodeCoverage><ShowInstrProfiling>1</ShowInstrProfiling></Disassembly>
       <Register><PreferedWindows><Position>2</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows></Register>
-    <WATCH_1><expressions><item>gpsGllMessage</item><item>compassData</item><item>latitude</item><item>longitude</item><item>userLatitude</item><item>userLongitude</item><item>userDirection</item><item>distanceBetweenUserAndTrolley</item><item></item></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>177</item><item>150</item><item>100</item><item>379</item></col-widths><PreferedWindows><Position>2</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows></WATCH_1></Static>
+    <WATCH_1><expressions><item>gpsGllMessage</item><item>compassData</item><item>latitude</item><item>longitude</item><item>userLatitude</item><item>userLongitude</item><item>userDirection</item><item>distanceBetweenUserAndTrolley</item><item/></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>177</item><item>150</item><item>100</item><item>379</item></col-widths><PreferedWindows><Position>2</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows></WATCH_1></Static>
     <Windows>
       
       
