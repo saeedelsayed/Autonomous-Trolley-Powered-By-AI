@@ -18,6 +18,15 @@
 #include "i2c_driver.h"
 
 /*******************************************************************************
+ *                                Definitions                                  *
+ *******************************************************************************/
+   
+/* definition of directions of movments */
+#define MOVE_FORWARD                 'F'
+#define MOVE_LEFT                    'L'
+#define MOVE_RIGHT                   'R'
+
+/*******************************************************************************
  *                                pin declarations                             * 
  *******************************************************************************/
 
@@ -109,5 +118,14 @@ float32 SERVICES_getDistance(void);
  * return value : the difference in angle.
 */
 sint8 SERVICES_getDifferenceInAngle(void);
+
+/*
+ * description : the function is responsible for sending commands to the avr slave.
+ *
+ * parameters  : direction of movement and speed of movement or angle of rotation.
+ *
+ * return value : NONE.
+*/
+void SERVICES_sendCommandToAvrSlave(uint8 direction, uint16 speedOrAngle);
 
 #endif

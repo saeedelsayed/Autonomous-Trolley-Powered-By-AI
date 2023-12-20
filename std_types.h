@@ -3,12 +3,8 @@
  * Module: Common - Platform Types Abstraction
  *
  * File Name: std_types.h
- *
-<<<<<<< HEAD
- * Description: types for AVR
-=======
+ 
  * Description: types for ARM
->>>>>>> UART_Driver_Complete
  *
  * Author: Abdelrahman Saeed
  *

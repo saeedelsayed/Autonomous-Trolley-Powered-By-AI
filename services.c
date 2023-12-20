@@ -27,6 +27,9 @@
 /* definition of the request ID to get user data */
 #define REQUEST_TO_GET_USER_DATA_ID  'S'
 
+/* definition of the address of the AVR slave */
+#define AVR_SLAVE_ADDRESS            0x0F
+
 /* pin definition for USART1 */
 ConfigurationPin usart1TX = {PORTA_ID, PIN9_ID, ALTERNATE_MODE, OUTPUT_PUSH_PULL, NO_PULL_UP_DOWN, LOGIC_HIGH, AF7};
 ConfigurationPin usart1RX = {PORTA_ID, PIN10_ID, ALTERNATE_MODE, OUTPUT_PUSH_PULL, NO_PULL_UP_DOWN, LOGIC_HIGH, AF7};
@@ -63,6 +66,9 @@ static float64 toRadians(float64 degree);
 
 /* function prototype to rquest user data */
 static void SERVICES_requestToGetUserData(void);
+
+/* function prototype to convert integer to string */
+static void SERVICES_convertIntToString(uint8* str, uint16 number);
 
 
 /*
@@ -203,6 +209,28 @@ sint8 SERVICES_getDifferenceInAngle(void){
 
 
 /*
+ * description : the function is responsible for sending commands to the avr slave.
+ *
+ * parameters  : direction of movement and speed of movement or angle of rotation.
+ *
+ * return value : NONE.
+*/
+void SERVICES_sendCommandToAvrSlave(uint8 direction, uint16 speedOrAngle){
+  
+  /* buffer to hold the data to be sent */
+  uint8 dataToBeSent[10];
+  
+  /* prepare the data to be sent */
+  SERVICES_convertIntToString(dataToBeSent, speedOrAngle);
+  dataToBeSent[3] = direction;
+  dataToBeSent[4] = '\0';
+  
+  /* sent the data to the AVR slave through I2C module */
+  I2C_Master_transmitString(&i2c1, (AVR_SLAVE_ADDRESS << 1), dataToBeSent);
+}
+
+
+/*
 * description : the function is responsible for converting degree to radian.
 *
 * parameters  : degree.
@@ -224,4 +252,25 @@ static float64 toRadians(float64 degree)
 */
 static void SERVICES_requestToGetUserData(void){
   Bluetooth_sendCharacter(REQUEST_TO_GET_USER_DATA_ID);
+}
+
+
+/*
+* description : the function is responsible for converting an integer to string.
+*
+* parameters  : number to be converted and the buffer the hold the string.
+*
+* return value : NONE.
+*/
+static void SERVICES_convertIntToString(uint8* str, uint16 number){
+  
+  /* variable to hold the index to the buffer */
+  sint8 i = 2;
+  
+  /* converting the 3 digit integer to a string */
+  while(i >= 0){
+    str[i] = (number % 10) + '0';
+    number /= 10;
+    i--;
+  }
 }

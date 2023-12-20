@@ -23,6 +23,9 @@ int main()
     SERVICES_updateUserData();
     distanceBetweenUserAndTrolley = SERVICES_getDistance();
     angleBetweenUserAndTrolley = SERVICES_getDifferenceInAngle();
+    if(angleBetweenUserAndTrolley == -1){
+      SERVICES_sendCommandToAvrSlave(MOVE_FORWARD, 100);
+    } 
   }
   
   return 0;
