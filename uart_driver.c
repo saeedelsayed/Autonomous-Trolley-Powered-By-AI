@@ -94,7 +94,8 @@ void UART_sendByte(USART_STRUCT * usart, uint8 data)
 uint8 UART_receiveByte(USART_STRUCT * usart)
 {
         /* wait until the data register receive the data */
-	while(BIT_IS_CLEAR((*(uint32 *)(usart->type + USART_SR_ADDRESS_OFFSET)),RXNE) );
+	while(BIT_IS_CLEAR((*(uint32 *)(usart->type + USART_SR_ADDRESS_OFFSET)),RXNE));
+        
 	/* read the data */ 
         return (*((volatile uint32 *)(usart->type + USART_DR_ADDRESS_OFFSET)));
 }

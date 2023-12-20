@@ -14,6 +14,8 @@
 #include "gps_commands.h"
 #include "gps.h"
 #include "uart_driver.h"
+#include "uart_registers.h"
+#include "common_macros.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -60,6 +62,9 @@ void GPS_init(void){
   
   /* disable GLL message */
   GPS_sendCommand(DISABLE_GLL_MESSAGE);
+  
+  /* clear the buffer register in case any unwanted data received */
+  volatile uint32 dummyVariable = (*((volatile uint32 *)(gpsInputOutputModule->type + USART_DR_ADDRESS_OFFSET)));
 }
 
 /*
