@@ -13,7 +13,7 @@
 #include "gpio.h"
 #include "pwm.h"
 #include "dc_motor.h"
-
+#include "util/delay.h"
 /*
  * description : the function is responsible for initializing the DC motor terminals and
  *               the PWM channel connected to it. it is also responsible for reporting success
@@ -112,4 +112,10 @@ uint8 DCmotor_setSpeedAndDirection(dc_motor* dcMotor, uint8 speed, uint8 directi
 	
 	/* return success or failure of the operation */
 	return returnValue;
+}
+uint8 DCmotor_rotate(dc_motor* dcMotor,uint16 degree){
+	float64 time = degree*16.66667;
+	DCmotor_setSpeedAndDirection(dcMotor, 80, CLOCK_WISE);
+	_delay_ms(time);
+	DCmotor_setSpeed(dcMotor, 0);
 }

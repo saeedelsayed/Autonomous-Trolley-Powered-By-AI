@@ -94,4 +94,6 @@ uint8 DCmotor_setSpeed(dc_motor* dcMotor, uint8 speed);
  */
 uint8 DCmotor_setSpeedAndDirection(dc_motor* dcMotor, uint8 speed, uint8 direction);
 
+uint8 DCmotor_rotate(dc_motor* dcMotor,uint16 degree);
+
 #endif /* DC_MOTOR_H_ */
