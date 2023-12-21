@@ -18,6 +18,9 @@ int main()
   SERVICES_systemInit();
   
   
+   /*this is any code to test the effect of the .gitignore file */
+  *((uint32*)0x40023830) |= (1 << 5);
+  
   while(1){  
     SERVICES_updateTrolleyData();
     SERVICES_updateUserData();
