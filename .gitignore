@@ -1,0 +1,9 @@
+PORT_Driver.dep
+PORT_Driver.ewd
+PORT_Driver.ewp
+I2C.dep
+settings/
+Release/
+Debug/
+.vscode/
+.vs/
