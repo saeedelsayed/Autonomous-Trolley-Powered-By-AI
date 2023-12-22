@@ -1,9 +1,7 @@
-PORT_Driver.dep
-PORT_Driver.ewd
-PORT_Driver.ewp
-I2C.dep
+Trolley_System.dep
+Trolley_System.ewd
+Trolley_System.ewp
+Trolley_System.eww
 settings/
 Release/
 Debug/
-.vscode/
-.vs/

@@ -102,19 +102,19 @@ void SERVICES_systemInit(void){
   I2C_init(&i2c1);
   
   /* set the I/O module for the GPS */
-  GPS_setInputOutputModule(&usart1);
+  //GPS_setInputOutputModule(&usart1);
   
   /* initialize the GPS module */
-  GPS_init();
+  //GPS_init();
   
   /* set the I/O module for the Bluetooth */
   Bluetooth_setInputOutputModule(&usart2);
   
   /* set the I/O module for the compass sensor */
-  QMC5883l_SetInOutModule(&i2c1);
+  //QMC5883l_SetInOutModule(&i2c1);
   
   /* initialize the compass sensor */
-  QMC5883l_Init();
+  //QMC5883l_Init();
 }
 
 
