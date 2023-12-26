@@ -143,6 +143,7 @@ standard_return_t I2C_Master_stop(const I2C_config_t *i2c)
 standard_return_t I2C_writeAddress(const I2C_config_t *i2c, uint8 address)
 {
   standard_return_t ret_val = E_OK;
+  
   if (NULL_PTR == i2c)
   {
     ret_val = E_NOT_OK;
@@ -150,7 +151,15 @@ standard_return_t I2C_writeAddress(const I2C_config_t *i2c, uint8 address)
   else
   {
     (*(uint32 *)(i2c->type + I2Cx_DR_OFFSET)) = address;
-    while(BIT_IS_CLEAR((*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET)),I2C_SR1_ADDR));
+    
+    while(BIT_IS_CLEAR((*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET)),I2C_SR1_ADDR))
+    {
+      //if(BIT_IS_SET((*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET)),I2C_SR1_AF))
+      //{
+        //ret_val = E_NOT_OK;
+        //break;
+      //}
+    };
   }
   
   return ret_val;
@@ -234,13 +243,17 @@ standard_return_t I2C_Master_transmitByte(const I2C_config_t *i2c, uint8 address
 
 standard_return_t I2C_Master_transmitString(const I2C_config_t *i2c, uint8 address, uint8 * str)
 {
+  standard_return_t ret_val = E_OK;
   uint8 i = 0;
   
-  (*(uint32 *)(i2c->type + I2Cx_CR1_OFFSET)) |= (1 << I2C_CR1_START);
-  while(BIT_IS_CLEAR((*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET)),I2C_SR1_SB));
+  I2C_Master_start(i2c);
   
-  (*(uint32 *)(i2c->type + I2Cx_DR_OFFSET)) = address;
-  while(BIT_IS_CLEAR((*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET)),I2C_SR1_ADDR));
+  ret_val = I2C_writeAddress(i2c, address);
+  
+  if(ret_val == E_NOT_OK)
+  {
+      return FAIL;
+  }
   
   volatile uint32 dummyVariable = (*(uint32 *)(i2c->type + I2Cx_SR1_OFFSET));
   dummyVariable = (*(uint32 *)(i2c->type + I2Cx_SR2_OFFSET));
