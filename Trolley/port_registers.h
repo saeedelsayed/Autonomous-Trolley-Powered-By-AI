@@ -27,6 +27,7 @@
 #define PORTx_MODER_OFFSET           (0x00)
 #define PORTx_OTYPER_OFFSET          (0x04)
 #define PORTx_PUPDR_OFFSET           (0x0C)
+#define PORTx_IDR_OFFSET             (0x10) 
 #define PORTx_ODR_OFFSET             (0x14)
 #define PORTx_AFRL_OFFSET            (0x20)
 #define PORTx_AFRH_OFFSET            (0x24)
