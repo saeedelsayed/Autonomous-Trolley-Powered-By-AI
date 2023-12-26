@@ -1,12 +1,14 @@
-/**
- * @file i2c_registers.h
- * @author Ahmed Radwan (ahmedradwan01126239771@gmail.com)
- * @brief This is the header file for the I2C registers
- * @date 2023-11-15
+/*******************************************************************************
  *
- * @copyright Copyright (c) 2023
+ * Module: I2C module
  *
- */
+ * File Name: i2c_registers.h
+ *
+ * Description: registers defintion for the I2C module
+ *
+ * Author: Saeed Elsayed & Ahmed Radwan
+ *
+ *******************************************************************************/
 
 #ifndef I2C_REGISTERS_H_
 #define I2C_REGISTERS_H_
@@ -14,8 +16,6 @@
 /*******************************************************************************************/
 /***********************************I2C Registers*******************************************/
 /*******************************************************************************************/
-
-//#define CLEAR_ALL_BITS 0x00000000
 
 /* Definition of the start address of the I2C */
 #define I2C1 0x40005400
@@ -25,14 +25,11 @@
 /* definition of the offset of the registers from start address */
 #define I2Cx_CR1_OFFSET     (0x00)
 #define I2Cx_CR2_OFFSET     (0x04)
-#define I2Cx_OAR1_OFFSET    (0x08)
-#define I2Cx_OAR2_OFFSET    (0x0C)
 #define I2Cx_DR_OFFSET      (0x10)
 #define I2Cx_SR1_OFFSET     (0x14)
 #define I2Cx_SR2_OFFSET     (0x18)
 #define I2Cx_CCR_OFFSET     (0x1C)
 #define I2Cx_TRISE_OFFSET   (0x20)
-#define I2Cx_FLTR_OFFSET    (0x24)
 
 /*******************************************************************************************/
 /***********************************I2C Registers bits**************************************/
@@ -67,28 +64,6 @@ typedef enum
     I2C_CR2_DMAEN,
     I2C_CR2_LAST
 } I2C_CR2_BITS;
-
-/* definition of the bits of the own address register 1 */
-typedef enum
-{
-    I2C_OAR1_ADD0 = 0,
-    I2C_OAR1_ADD_7_1,
-    I2C_OAR1_ADD9_8 = 8,
-    I2C_OAR1_ADDMODE = 15
-} I2C_OAR1_BITS;
-
-/* definition of the bits of the own address register 2 */
-typedef enum
-{
-    I2C_OAR2_ENDUAL = 0,
-    I2C_OAR2_ADD2
-} I2C_OAR2_BITS;
-
-/* definition of the bits of the data register */
-typedef enum
-{
-    I2C_DR_DR = 0
-} I2C_DR_BITS;
 
 /* definition of the bits of the status register 1 */
 typedef enum
@@ -136,10 +111,5 @@ typedef enum
     I2C_TRISE_TRISE = 0
 } I2C_TRISE_BITS;
 
-/* definition of the bits of the filter register */
-typedef enum
-{
-    I2C_FLTR_DNF = 0,
-    I2C_FLTR_ANOFF = 4
-} I2C_FLTR_BITS;
+
 #endif /* I2C_REGISTERS_H_ */
