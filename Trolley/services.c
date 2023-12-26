@@ -102,10 +102,10 @@ void SERVICES_systemInit(void){
   I2C_init(&i2c1);
   
   /* set the I/O module for the GPS */
-  //GPS_setInputOutputModule(&usart1);
+  GPS_setInputOutputModule(&usart1);
   
   /* initialize the GPS module */
-  //GPS_init();
+  GPS_init();
   
   /* set the I/O module for the Bluetooth */
   Bluetooth_setInputOutputModule(&usart2);
@@ -166,7 +166,7 @@ void SERVICES_updateTrolleyData(void){
   GPS_updateLatitudeAndLongitude();
   
   /* update trolley direction */
-  QMC5883l_GetAngel();
+  //QMC5883l_GetAngel();
 }
 
 
@@ -195,12 +195,12 @@ float32 SERVICES_getDistance(void){
 
 
 /*
- * description : the function is responsible for getting the difference in angle
- *               between the user and the trolley.
- *
- * parameters  : NONE.
- *
- * return value : the difference in angle.
+* description : the function is responsible for getting the difference in angle
+*               between the user and the trolley.
+*
+* parameters  : NONE.
+*
+* return value : the difference in angle.
 */
 sint8 SERVICES_getDifferenceInAngle(void){
   sint8 differenceInAngle = compassData.direction - userDirection;
@@ -209,13 +209,15 @@ sint8 SERVICES_getDifferenceInAngle(void){
 
 
 /*
- * description : the function is responsible for sending commands to the avr slave.
- *
- * parameters  : direction of movement and speed of movement or angle of rotation.
- *
- * return value : NONE.
+* description : the function is responsible for sending commands to the avr slave.
+*
+* parameters  : direction of movement and speed of movement or angle of rotation.
+*
+* return value : NONE.
 */
-void SERVICES_sendCommandToAvrSlave(uint8 direction, uint16 speedOrAngle){
+uint8 SERVICES_sendCommandToAvrSlave(uint8 direction, uint16 speedOrAngle){
+  
+  uint8 returnValue = SUCCESS;
   
   /* buffer to hold the data to be sent */
   uint8 dataToBeSent[10];
@@ -226,7 +228,9 @@ void SERVICES_sendCommandToAvrSlave(uint8 direction, uint16 speedOrAngle){
   dataToBeSent[4] = '\0';
   
   /* sent the data to the AVR slave through I2C module */
-  I2C_Master_transmitString(&i2c1, (AVR_SLAVE_ADDRESS << 1), dataToBeSent);
+  returnValue = I2C_Master_transmitString(&i2c1, (AVR_SLAVE_ADDRESS << 1), dataToBeSent);
+  
+  return returnValue;
 }
 
 
@@ -274,3 +278,30 @@ static void SERVICES_convertIntToString(uint8* str, uint16 number){
     i--;
   }
 }
+
+void SERVICES_decideDirection(uint16 * angleOrSpeed, uint8 * direction){
+  sint8 angleBetweenUserAndTrolley = SERVICES_getDifferenceInAngle();
+  
+  if((angleBetweenUserAndTrolley <= -1) && (angleBetweenUserAndTrolley >= -4)){
+    *direction = MOVE_RIGHT;
+    *angleOrSpeed = 45 * abs(angleBetweenUserAndTrolley);
+  }
+  else if (angleBetweenUserAndTrolley < -4){
+    *direction = MOVE_LEFT;
+    *angleOrSpeed = 45 * (angleBetweenUserAndTrolley + 8);
+  }
+  else if((angleBetweenUserAndTrolley >= 1) && (angleBetweenUserAndTrolley <= 4)){
+    *direction = MOVE_LEFT;
+    *angleOrSpeed = 45 * angleBetweenUserAndTrolley;
+  }
+  else if (angleBetweenUserAndTrolley > 4){
+    *direction = MOVE_RIGHT;
+    *angleOrSpeed = 45 * (8 - angleBetweenUserAndTrolley);
+  }
+  else{
+    *direction = MOVE_FORWARD;
+    *angleOrSpeed = 80;
+  }
+}
+
+

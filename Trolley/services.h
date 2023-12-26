@@ -126,6 +126,8 @@ sint8 SERVICES_getDifferenceInAngle(void);
  *
  * return value : NONE.
 */
-void SERVICES_sendCommandToAvrSlave(uint8 direction, uint16 speedOrAngle);
+uint8 SERVICES_sendCommandToAvrSlave(uint8 direction, uint16 speedOrAngle);
+
+void SERVICES_decideDirection(uint16 * angleOrSpeed, uint8 * direction);
 
 #endif

@@ -26,7 +26,9 @@ void setup() {
   gpsPort.begin(9600);
   Bluetooth.begin(38400);
 
+  Bluetooth.print("Before\r\n");
   compass.init();
+  Bluetooth.print("After\r\n");
   compass.setCalibration(-568, 988, 940, 2551, 558, 1963);
 }
 

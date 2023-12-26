@@ -1,7 +1,8 @@
 #include "services.h"
 
 float32 distanceBetweenUserAndTrolley = 0.0;
-sint8 angleBetweenUserAndTrolley = 0;
+uint8 direction = 0;
+uint16 angleOrSpeed = 0;
 
 int main()
 {
@@ -17,13 +18,20 @@ int main()
     
   SERVICES_systemInit();
   
+  uint8 returnValue;
+  
     
-  while(1){  
-    //SERVICES_updateTrolleyData();
+  while(1){
+    SERVICES_updateTrolleyData();
     SERVICES_updateUserData();
     distanceBetweenUserAndTrolley = SERVICES_getDistance();
-    angleBetweenUserAndTrolley = SERVICES_getDifferenceInAngle();
-    //SERVICES_sendCommandToAvrSlave(MOVE_FORWARD, 100);
+    SERVICES_decideDirection(&angleOrSpeed, &direction);
+    returnValue = SERVICES_sendCommandToAvrSlave(direction, angleOrSpeed);
+    
+    if(returnValue == FAIL){
+      continue;
+    }
+    
   }
   
   return 0;
