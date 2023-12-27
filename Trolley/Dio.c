@@ -29,28 +29,28 @@ void Dio_writePin(DioPin* Dio_pin, uint8 data)
   
   /* select the start address of the port */
   switch(Dio_pin->portNumber){
-  case PORTA_ID:
+  case DIO_PORTA_ID:
     /* start address of port A */
-    outputDataRegisterPtr = PORTA_BASE_ADDRESS;
+    outputDataRegisterPtr = DIO_PORTA_BASE_ADDRESS;
     break;
-  case PORTB_ID:
+  case DIO_PORTB_ID:
     /* start address of port B */
-    outputDataRegisterPtr = PORTB_BASE_ADDRESS;
+    outputDataRegisterPtr = DIO_PORTB_BASE_ADDRESS;
     break;
-  case PORTC_ID:
+  case DIO_PORTC_ID:
     /* start address of port C */
-    outputDataRegisterPtr = PORTC_BASE_ADDRESS;
+    outputDataRegisterPtr = DIO_PORTC_BASE_ADDRESS;
     break;
   }
   
   /* write the required data on the pin through the output register */
   if(data == LOGIC_HIGH)
   {
-    SET_BIT(*((uint32*)(((uint8*)outputDataRegisterPtr) + PORTx_ODR_OFFSET)),Dio_pin->pinNumber);
+    SET_BIT(*((uint32*)(((uint8*)outputDataRegisterPtr) + DIO_PORTx_ODR_OFFSET)),Dio_pin->pinNumber);
   }
   else if(data == LOGIC_LOW)
   {
-    CLEAR_BIT(*((uint32*)(((uint8*)outputDataRegisterPtr) + PORTx_ODR_OFFSET)),Dio_pin->pinNumber);
+    CLEAR_BIT(*((uint32*)(((uint8*)outputDataRegisterPtr) + DIO_PORTx_ODR_OFFSET)),Dio_pin->pinNumber);
   }
   
 }
@@ -71,20 +71,20 @@ uint8 Dio_readPin(DioPin* Dio_pin)
   
   /* select the start address of the port */
   switch(Dio_pin->portNumber){
-  case PORTA_ID:
+  case DIO_PORTA_ID:
     /* start address of port A */
-    inputDataRegisterPtr = PORTA_BASE_ADDRESS;
+    inputDataRegisterPtr = DIO_PORTA_BASE_ADDRESS;
     break;
-  case PORTB_ID:
+  case DIO_PORTB_ID:
     /* start address of port B */
-    inputDataRegisterPtr = PORTB_BASE_ADDRESS;
+    inputDataRegisterPtr = DIO_PORTB_BASE_ADDRESS;
     break;
-  case PORTC_ID:
+  case DIO_PORTC_ID:
     /* start address of port C */
-    inputDataRegisterPtr = PORTC_BASE_ADDRESS;
+    inputDataRegisterPtr = DIO_PORTC_BASE_ADDRESS;
     break;
   }
   /* read the specific pin data and return it */
-  data = (*((uint32*)(((uint8*)inputDataRegisterPtr) + PORTx_IDR_OFFSET)) & (1 << Dio_pin->pinNumber)) >> Dio_pin->pinNumber;
+  data = (*((uint32*)(((uint8*)inputDataRegisterPtr) + DIO_PORTx_IDR_OFFSET)) & (1 << Dio_pin->pinNumber)) >> Dio_pin->pinNumber;
   return data;
 }

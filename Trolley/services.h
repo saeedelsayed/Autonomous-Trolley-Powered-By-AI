@@ -16,6 +16,7 @@
 #include "port.h"
 #include "uart_driver.h"
 #include "i2c_driver.h"
+#include "Dio.h"
 
 /*******************************************************************************
  *                                Definitions                                  *
