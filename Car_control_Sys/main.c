@@ -20,7 +20,7 @@ void INT0_Handeller(void){
  Car_stopMoving();
 }
 
-int main(void)
+int main3(void)
 {
 	ExtInterrupt_Init();
 	ExtInterrupt_EnableNotification(EXT_INTERRUPT_INT0,INT0_Handeller);
@@ -33,6 +33,7 @@ int main(void)
 
 		I2c_Slave_Receive(command, 4);
 		Car_go(command);
+
 //		if ((command[0] >= '0' && command[0] <= '9') && (command[1] >= '0'&& command[1] <= '9') && (command[2] >= '0' && command[2] <= '9'))
 //		{
 //			if (command[3] == 'F')
@@ -64,3 +65,17 @@ int main(void)
 		
 	}
 }
+
+int main(void)
+{
+	Car_init();
+	Car_moveForward();
+//	Car_rotateRight();
+	while(1){};
+//	Car_calibration(900);
+}
+
+//int main(void){
+//	Car_init();
+//	Car_moveForward();
+//}
