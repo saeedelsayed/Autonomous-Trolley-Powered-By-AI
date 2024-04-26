@@ -13,12 +13,12 @@
 #include "util/delay.h"
 
 static car_dataType carData = {
-	{{PORTC_ID, PIN4_ID}, {PORTC_ID, PIN5_ID}, 0, PWM_CHANNEL0_ID},
-	{{PORTC_ID, PIN2_ID}, {PORTC_ID, PIN3_ID}, 1, PWM_CHANNEL1_ID},
+	{{PORTC_ID, PIN5_ID}, {PORTC_ID, PIN4_ID}, 0, PWM_CHANNEL0_ID},
+	{{PORTC_ID, PIN3_ID}, {PORTC_ID, PIN2_ID}, 1, PWM_CHANNEL1_ID},
 	{{PORTA_ID, PIN1_ID}, {PORTA_ID, PIN2_ID}, 2, PWM_CHANNEL2_ID},
 	{{PORTA_ID, PIN3_ID}, {PORTA_ID, PIN4_ID}, 3, PWM_CHANNEL3_ID},
 	{0, 0, 0, 0},
-	0,
+	45,
 	70,
 	0};
 void Car_init(void)
@@ -64,6 +64,8 @@ void Car_moveForward(void)
 }
 void Car_MoveBack(void)
 {
+	Car_stopMoving();
+	_delay_ms(500);
 	DCmotor_setSpeedAndDirection(&carData.rightFrontMotor, carData.carSpeed, ANTI_CLOCK_WISE);
 	DCmotor_setSpeedAndDirection(&carData.leftFrontMotor, carData.carSpeed, ANTI_CLOCK_WISE);
 	DCmotor_setSpeedAndDirection(&carData.rightBackMotor, carData.carSpeed, ANTI_CLOCK_WISE);
@@ -74,23 +76,27 @@ void Car_MoveBack(void)
 
 void Car_rotateRight(void)
 {
-	DCmotor_setSpeedAndDirection(&carData.rightFrontMotor, carData.carSpeed, ANTI_CLOCK_WISE);
-	DCmotor_setSpeedAndDirection(&carData.leftFrontMotor, carData.carSpeed, CLOCK_WISE);
-	DCmotor_setSpeedAndDirection(&carData.rightBackMotor, carData.carSpeed, ANTI_CLOCK_WISE);
-	DCmotor_setSpeedAndDirection(&carData.leftBackMotor, carData.carSpeed, CLOCK_WISE);
+	Car_stopMoving();
+	_delay_ms(500);
+	DCmotor_setSpeedAndDirection(&carData.rightFrontMotor, 100, ANTI_CLOCK_WISE);
+	DCmotor_setSpeedAndDirection(&carData.leftFrontMotor, 100, CLOCK_WISE);
+	DCmotor_setSpeedAndDirection(&carData.rightBackMotor,100, ANTI_CLOCK_WISE);
+	DCmotor_setSpeedAndDirection(&carData.leftBackMotor, 100, CLOCK_WISE);
 	float64 time = carData.carAngle * 20;
 	_delay_ms(time);
-	Car_moveForward();
+	Car_stopMoving();
 }
 void Car_rotateLeft(void)
 {
-	DCmotor_setSpeedAndDirection(&carData.rightFrontMotor, carData.carSpeed, CLOCK_WISE);
-	DCmotor_setSpeedAndDirection(&carData.leftFrontMotor, carData.carSpeed, ANTI_CLOCK_WISE);
-	DCmotor_setSpeedAndDirection(&carData.rightBackMotor, carData.carSpeed, CLOCK_WISE);
-	DCmotor_setSpeedAndDirection(&carData.leftBackMotor, carData.carSpeed, ANTI_CLOCK_WISE);
+	Car_stopMoving();
+	_delay_ms(500);
+	DCmotor_setSpeedAndDirection(&carData.rightFrontMotor,100, CLOCK_WISE);
+	DCmotor_setSpeedAndDirection(&carData.leftFrontMotor, 100, ANTI_CLOCK_WISE);
+	DCmotor_setSpeedAndDirection(&carData.rightBackMotor, 100, CLOCK_WISE);
+	DCmotor_setSpeedAndDirection(&carData.leftBackMotor, 100, ANTI_CLOCK_WISE);
 	float64 time = carData.carAngle * 20;
 	_delay_ms(time);
-	Car_moveForward();
+	Car_stopMoving();
 }
 void Car_setSpeed(void)
 {
