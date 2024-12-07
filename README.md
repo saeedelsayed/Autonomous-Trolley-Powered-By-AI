@@ -49,9 +49,9 @@ The Autonomous Tracking Trolley is an intelligent, user-friendly solution design
  * **Communication**: I2C, UART, ESP-NOW.
 ## Prototype
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-  <img src="https://github.com/user-attachments/assets/e18923ca-410c-4148-92d4-ed0d48210340" alt="Description 1" width="45%">
-  <img src="https://github.com/user-attachments/assets/db5297d6-aefa-46b7-a831-f97a42fdc250" alt="Description 2" width="45%">
-  <img src="https://github.com/user-attachments/assets/e9dae197-a8ea-4620-8718-a4438d47ae61" alt="Description 3" width="45%">
-  <img src="https://github.com/user-attachments/assets/ebebf11a-f129-4726-b979-cf41d978d8a4" alt="Description 4" width="45%">
+  <img src="https://github.com/user-attachments/assets/e18923ca-410c-4148-92d4-ed0d48210340" alt="Description 1" style="width: 200px; height: 200px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/db5297d6-aefa-46b7-a831-f97a42fdc250" alt="Description 2" style="width: 200px; height: 200px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/e9dae197-a8ea-4620-8718-a4438d47ae61" alt="Description 3" style="width: 200px; height: 200px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/ebebf11a-f129-4726-b979-cf41d978d8a4" alt="Description 4" style="width: 200px; height: 200px; object-fit: cover;">
 </div>
 
